@@ -1,0 +1,105 @@
+*, html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    position: relative;
+    background-image: url('img/patapamlanding.png');
+    background-size: cover;
+    background-position: bottom;
+}
+
+[data-i18n="mainTitle"] {
+    color: red;
+    font-size: 6rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lilita One', cursive;
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    justify-content: flex-end;
+}
+
+[dir="rtl"] .lang-switcher {
+    justify-content: flex-start;
+}
+
+.lang-switcher button {
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+    line-height: 0;
+}
+
+.lang-switcher button img {
+    width: 36px;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.lang-switcher button:hover,
+.lang-switcher button.active {
+    border-color: white;
+}
+
+/* ── Flèche réutilisable ───────────────────────────────── */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+.arrow {
+    position: absolute;
+    /* Position par défaut : à ajuster selon l'entrée de la cabane */
+    bottom: 50%;
+    left: 28%;
+    width: 0;
+    height: 0;
+    /* Triangle CSS pointant vers le bas */
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-top: 48px solid red;
+    animation: blink 0.7s ease-in-out infinite;
+    cursor: pointer;
+    text-decoration: none;
+    /* Centrage : compense le translateX du left:50% */
+    transform: translateX(-50%);
+}
+
+/* Variantes de direction */
+.arrow--down  { transform: translateX(-50%) rotate(0deg);    }
+.arrow--up    { transform: translateX(-50%) rotate(180deg);  }
+.arrow--left  { transform: translateX(-50%) rotate(90deg);   }
+.arrow--right { transform: translateX(-50%) rotate(-90deg);  }
+
+/* Queue de la flèche (tige) — 28px = moitié de la base 56px */
+.arrow::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 34px;
+    background: red;
+    left: -14px;   /* centré sur l'élément de largeur 0 */
+    top: -82px;    /* 48px (triangle) + 34px (tige) au-dessus de la pointe */
+}

@@ -1,0 +1,15 @@
+main {
+    flex: 1;
+    position: relative;
+    background-image: url('img/patapam_cabane.png');
+    background-size: cover;
+    background-position: bottom;
+}
+
+[data-i18n="cabaneTitle"] {
+    color: red;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lilita One', cursive;
+}
