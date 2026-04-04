@@ -4,6 +4,9 @@ type TranslationKeys = {
   title: string;
   mainTitle: string;
   cabaneTitle: string;
+  bibli: string;
+  jeux: string;
+  ecole: string;
 };
 
 const translations: Record<Lang, TranslationKeys> = {
@@ -11,16 +14,25 @@ const translations: Record<Lang, TranslationKeys> = {
     title: "Le Monde de Patapam",
     mainTitle: "Le Monde de Patapam",
     cabaneTitle: "Bienvenue dans la cabane de Patapam !",
+    bibli: "Bibliothèque",
+    jeux: "Jeux",
+    ecole: "Educatif",
   },
   en: {
     title: "The World of Patapam",
     mainTitle: "The World of Patapam",
     cabaneTitle: "Welcome to Patapam's cabin!",
+    bibli: "Library",
+    jeux: "Games",
+    ecole: "Learn",
   },
   he: {
     title: "העולם של פטפם",
     mainTitle: "העולם של פטפם",
     cabaneTitle: "ברוכים הבאים לצריף של פטפם!",
+    bibli: "ספריה",
+    jeux: "משחקים",
+    ecole: "לימוד",
   },
 };
 

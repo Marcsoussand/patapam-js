@@ -1,0 +1,16 @@
+main {
+    flex: 1;
+    position: relative;
+    background-image: url('img/salledejeux.png');
+    background-size: cover;
+    background-position: bottom;
+}
+
+[data-i18n="jeux"] {
+    color: red;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lilita One', cursive;
+    -webkit-text-stroke: 1px white;
+}

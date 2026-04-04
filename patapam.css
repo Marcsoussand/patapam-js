@@ -28,6 +28,7 @@ main {
     text-align: center;
     margin-top: 2rem;
     font-family: 'Lilita One', cursive;
+    -webkit-text-stroke: 1px white;
 }
 
 .lang-switcher {
@@ -35,10 +36,7 @@ main {
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     justify-content: flex-end;
-}
-
-[dir="rtl"] .lang-switcher {
-    justify-content: flex-start;
+    direction: ltr;
 }
 
 .lang-switcher button {
@@ -63,7 +61,7 @@ main {
     border-color: white;
 }
 
-/* ── Flèche réutilisable ───────────────────────────────── */
+/* ── Arrow ───────────────────────────────── */
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0; }
@@ -71,35 +69,45 @@ main {
 
 .arrow {
     position: absolute;
-    /* Position par défaut : à ajuster selon l'entrée de la cabane */
+    /* Default position: adjust according to the cabin entrance */
     bottom: 50%;
     left: 28%;
     width: 0;
     height: 0;
-    /* Triangle CSS pointant vers le bas */
+    /* CSS triangle pointing down */
     border-left: 28px solid transparent;
     border-right: 28px solid transparent;
     border-top: 48px solid red;
     animation: blink 0.7s ease-in-out infinite;
     cursor: pointer;
     text-decoration: none;
-    /* Centrage : compense le translateX du left:50% */
+    /* Center : compensate the translateX of left:50% */
     transform: translateX(-50%);
 }
 
-/* Variantes de direction */
+/* Direction variants */
 .arrow--down  { transform: translateX(-50%) rotate(0deg);    }
 .arrow--up    { transform: translateX(-50%) rotate(180deg);  }
 .arrow--left  { transform: translateX(-50%) rotate(90deg);   }
 .arrow--right { transform: translateX(-50%) rotate(-90deg);  }
 
-/* Queue de la flèche (tige) — 28px = moitié de la base 56px */
+/* Extended click area — invisible, 50px around the arrow */
+.arrow::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+}
+
+/* Arrow tail (stem) — 28px = half of the base 56px */
 .arrow::after {
     content: '';
     position: absolute;
     width: 28px;
     height: 34px;
     background: red;
-    left: -14px;   /* centré sur l'élément de largeur 0 */
-    top: -82px;    /* 48px (triangle) + 34px (tige) au-dessus de la pointe */
+    left: -14px;   /* centered on the element with width 0 */
+    top: -82px;    /* 48px (triangle) + 34px (stem) above the tip */
 }
