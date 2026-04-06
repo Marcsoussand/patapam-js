@@ -24,6 +24,24 @@
     </header>
     <main>
         <h1 data-i18n="jeux">Jeux</h1>
+
+        <!-- Zone semi-transparente -->
+        <div class="game-panel" id="gamePanel">
+            <div class="game-panel__content" id="gamePanelContent">
+                <!-- Le contenu du jeu sera injecté ici -->
+            </div>
+            <button class="game-panel__close" id="gamePanelClose" aria-label="Fermer">✕</button>
+        </div>
+
+        <!-- Zones de sélection -->
+        <div class="game-zones">
+            <button class="game-zone game-zone--left" id="btnTicTacToe">
+                <span data-i18n="tictactoe">Morpion</span>
+            </button>
+            <button class="game-zone game-zone--right" id="btnMemory">
+                <span data-i18n="memory">Memory</span>
+            </button>
+        </div>
     </main>
     <script src="patapam.js"></script>
     <script src="jeux.js"></script>

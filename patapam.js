@@ -7,6 +7,9 @@ const translations = {
         bibli: "Bibliothèque",
         jeux: "Jeux",
         ecole: "Educatif",
+        tictactoe: "Morpion",
+        memory: "Memory",
+        memoryLevel: "Niveau",
     },
     en: {
         title: "The World of Patapam",
@@ -15,6 +18,9 @@ const translations = {
         bibli: "Library",
         jeux: "Games",
         ecole: "Learn",
+        tictactoe: "Tic Tac Toe",
+        memory: "Memory",
+        memoryLevel: "Level",
     },
     he: {
         title: "העולם של פטפם",
@@ -23,6 +29,9 @@ const translations = {
         bibli: "ספריה",
         jeux: "משחקים",
         ecole: "לימוד",
+        tictactoe: "איקס עיגול",
+        memory: "זיכרון",
+        memoryLevel: "רמה",
     },
 };
 function setLanguage(lang) {

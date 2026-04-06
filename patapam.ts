@@ -7,6 +7,9 @@ type TranslationKeys = {
   bibli: string;
   jeux: string;
   ecole: string;
+  tictactoe: string;
+  memory: string;
+  memoryLevel: string;
 };
 
 const translations: Record<Lang, TranslationKeys> = {
@@ -17,6 +20,9 @@ const translations: Record<Lang, TranslationKeys> = {
     bibli: "Bibliothèque",
     jeux: "Jeux",
     ecole: "Educatif",
+    tictactoe: "Morpion",
+    memory: "Memory",
+    memoryLevel: "Niveau",
   },
   en: {
     title: "The World of Patapam",
@@ -25,6 +31,9 @@ const translations: Record<Lang, TranslationKeys> = {
     bibli: "Library",
     jeux: "Games",
     ecole: "Learn",
+    tictactoe: "Tic Tac Toe",
+    memory: "Memory",
+    memoryLevel: "Level",
   },
   he: {
     title: "העולם של פטפם",
@@ -33,6 +42,9 @@ const translations: Record<Lang, TranslationKeys> = {
     bibli: "ספריה",
     jeux: "משחקים",
     ecole: "לימוד",
+    tictactoe: "איקס עיגול",
+    memory: "זיכרון",
+    memoryLevel: "רמה",
   },
 };
 
