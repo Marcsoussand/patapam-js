@@ -94,15 +94,163 @@ const YOUNG_CATEGORIES = [
         ],
     },
 ];
+// ── Popup Glenn Doman ─────────────────────────────────────
+const DOMAN_CONTENT = {
+    fr: {
+        title: "La méthode Glenn Doman",
+        dir: "ltr",
+        html: `
+<p>La méthode de lecture précoce développée par Glenn Doman s'inscrit dans un contexte initialement thérapeutique et empirique. Dans les années 1950, au sein de l'<em>Institutes for the Achievement of Human Potential</em>, Doman travaillait avec des enfants atteints de lésions cérébrales ou de troubles neurologiques sévères. Il observa que ces enfants, soumis à des stimulations sensorielles intensives, structurées et répétées — notamment visuelles et linguistiques — développaient parfois des capacités de lecture et de compréhension supérieures à celles d'enfants dits « normaux » du même âge, scolarisés de manière classique.</p>
+<p>Ce constat contre-intuitif l'amena à formuler l'hypothèse que ce n'était pas l'immaturité du cerveau du jeune enfant qui limitait l'apprentissage, mais au contraire un manque de stimulation adaptée et précoce. La méthode fut ainsi extrapolée à des enfants sans handicap, non comme une thérapie, mais comme une opportunité d'exploiter pleinement les capacités exceptionnelles du cerveau en développement.</p>
+<p>Les bébés ont une capacité d'apprentissage exceptionnelle dès la naissance, bien supérieure à ce que l'on imagine, et ils peuvent apprendre à lire très tôt, souvent avant 3 ans, avec plaisir et sans effort, si l'approche est adaptée.</p>
+<h4>Idées clés</h4>
+<ul>
+    <li>Le cerveau du bébé est une « éponge » : plus l'apprentissage commence tôt, plus il est facile et naturel.</li>
+    <li>Lire n'est pas déchiffrer, mais reconnaître des mots, comme on reconnaît des visages.</li>
+    <li>L'apprentissage doit être rapide, joyeux, bref et volontaire (on s'arrête avant que l'enfant se lasse).</li>
+    <li>Le parent est le meilleur enseignant de son enfant.</li>
+</ul>
+<h4>Méthode proposée</h4>
+<ul>
+    <li>Montrer des mots entiers, écrits en gros caractères rouges sur des cartes (ex. : <em>maman</em>, <em>papa</em>).</li>
+    <li>Dire le mot clairement et avec enthousiasme, sans demander à l'enfant de répéter.</li>
+    <li>Faire des séances très courtes (quelques secondes), plusieurs fois par jour.</li>
+</ul>
+<h4>Progression en 5 étapes</h4>
+<ul>
+    <li>Mots simples → Couples de mots → Phrases simples → Phrases plus complexes → Lecture de vrais livres</li>
+</ul>
+<h4>Principes pédagogiques</h4>
+<ul>
+    <li>Aucune pression, aucun test.</li>
+    <li>Pas de correction : on montre, c'est tout.</li>
+    <li>Arrêter avant l'ennui.</li>
+    <li>Associer l'apprentissage à une relation affective positive.</li>
+</ul>
+<h4>Objectif</h4>
+<ul>
+    <li>Donner à l'enfant un avantage durable : goût de la lecture, confiance en soi, facilité d'apprentissage.</li>
+    <li>Montrer que la lecture précoce stimule le développement global du cerveau, pas seulement le langage.</li>
+</ul>`
+    },
+    en: {
+        title: "The Glenn Doman Method",
+        dir: "ltr",
+        html: `
+<p>Glenn Doman's early reading method originated in a therapeutic and empirical context. In the 1950s, at the <em>Institutes for the Achievement of Human Potential</em>, Doman worked with children who had suffered brain injuries or severe neurological disorders. He observed that these children, exposed to intensive, structured and repeated sensory stimulation — particularly visual and linguistic — sometimes developed reading and comprehension abilities superior to those of typically developing children of the same age in conventional schooling.</p>
+<p>This counter-intuitive finding led him to hypothesize that it was not brain immaturity that limited learning in young children, but rather a lack of appropriate early stimulation. The method was therefore extended to children without disabilities — not as therapy, but as an opportunity to fully harness the exceptional learning capacities of the developing brain.</p>
+<p>Babies have an exceptional capacity to learn from birth, far greater than commonly imagined. They can learn to read very early — often before age 3 — with joy and without effort, provided the approach is right.</p>
+<h4>Key ideas</h4>
+<ul>
+    <li>The baby's brain is a "sponge": the earlier learning begins, the easier and more natural it is.</li>
+    <li>Reading is not decoding — it is recognising whole words, just as we recognise faces.</li>
+    <li>Learning must be fast, joyful, brief and voluntary (stop before the child gets bored).</li>
+    <li>The parent is the child's best teacher.</li>
+</ul>
+<h4>Proposed method</h4>
+<ul>
+    <li>Show whole words written in large red letters on cards (e.g. <em>mum</em>, <em>dad</em>).</li>
+    <li>Say the word clearly and enthusiastically — never ask the child to repeat it.</li>
+    <li>Keep sessions very short (a few seconds), several times a day.</li>
+</ul>
+<h4>5-stage progression</h4>
+<ul>
+    <li>Single words → Word pairs → Simple sentences → More complex sentences → Real books</li>
+</ul>
+<h4>Teaching principles</h4>
+<ul>
+    <li>No pressure, no testing.</li>
+    <li>No correction: just show the card.</li>
+    <li>Always stop before boredom sets in.</li>
+    <li>Link learning to a warm, positive relationship.</li>
+</ul>
+<h4>Goal</h4>
+<ul>
+    <li>Give the child a lasting advantage: a love of reading, self-confidence, and ease of learning.</li>
+    <li>Show that early reading stimulates the overall development of the brain, not just language.</li>
+</ul>`
+    },
+    he: {
+        title: "שיטת גלן דומן",
+        dir: "rtl",
+        html: `
+<p>שיטת הקריאה המוקדמת של גלן דומן נולדה בהקשר טיפולי ואמפירי. בשנות ה-50, במכון <em>Institutes for the Achievement of Human Potential</em>, עבד דומן עם ילדים שסבלו מפגיעות מוח או הפרעות נוירולוגיות קשות. הוא הבחין שילדים אלה, שנחשפו לגירויים חושיים אינטנסיביים, מובנים וחוזרים — ובמיוחד ויזואליים ולשוניים — פיתחו לעיתים יכולות קריאה והבנה גבוהות מאלה של ילדים מתפתחים בגילם הלומדים בדרך המסורתית.</p>
+<p>ממצא מפתיע זה הוביל אותו להשערה שאין זה הבשלות המוחית הלוקה שמגבילה את הלמידה, אלא דווקא היעדר גירוי מתאים ומוקדם. השיטה הורחבה לילדים ללא מוגבלות — לא כטיפול, אלא כהזדמנות לנצל את יכולות הלמידה היוצאות מן הכלל של המוח המתפתח.</p>
+<p>לתינוקות יש יכולת למידה יוצאת דופן מלידה, גבוהה הרבה יותר ממה שנדמה לנו. הם יכולים ללמוד לקרוא מוקדם מאוד — לעיתים לפני גיל 3 — בשמחה ובלי מאמץ, אם הגישה מתאימה.</p>
+<h4>רעיונות מרכזיים</h4>
+<ul>
+    <li>מוח התינוק הוא "ספוג": ככל שהלמידה מתחילה מוקדם יותר, כך היא קלה וטבעית יותר.</li>
+    <li>קריאה אינה פיצוח — היא זיהוי מילים שלמות, בדיוק כשם שמזהים פנים.</li>
+    <li>הלמידה חייבת להיות מהירה, שמחה, קצרה ומרצון (מפסיקים לפני שהילד מתעייף).</li>
+    <li>ההורה הוא המורה הטוב ביותר של ילדו.</li>
+</ul>
+<h4>השיטה המוצעת</h4>
+<ul>
+    <li>להראות מילים שלמות הכתובות באותיות גדולות ואדומות על גבי קלפים (למשל: <em>אמא</em>, <em>אבא</em>).</li>
+    <li>לומר את המילה בבהירות ובהתלהבות — מבלי לבקש מהילד לחזור עליה.</li>
+    <li>לקיים מפגשים קצרים מאוד (כמה שניות), מספר פעמים ביום.</li>
+</ul>
+<h4>התקדמות ב-5 שלבים</h4>
+<ul>
+    <li>מילים בודדות ← זוגות מילים ← משפטים פשוטים ← משפטים מורכבים יותר ← ספרים אמיתיים</li>
+</ul>
+<h4>עקרונות פדגוגיים</h4>
+<ul>
+    <li>אין לחץ, אין מבחנים.</li>
+    <li>אין תיקונים — רק מראים את הקלף.</li>
+    <li>תמיד עוצרים לפני שהילד משתעמם.</li>
+    <li>מקשרים את הלמידה לקשר חם וחיובי.</li>
+</ul>
+<h4>מטרה</h4>
+<ul>
+    <li>לתת לילד יתרון מתמשך: אהבת קריאה, ביטחון עצמי וקלות למידה.</li>
+    <li>להראות שקריאה מוקדמת מגרה את ההתפתחות הכוללת של המוח — לא רק את השפה.</li>
+</ul>`
+    },
+};
+function showDomanPopup() {
+    const overlay = document.createElement("div");
+    overlay.className = "doman-overlay";
+    overlay.innerHTML = `
+        <div class="doman-popup">
+            <div class="doman-popup__header">
+                <h3></h3>
+                <button class="doman-popup__close" aria-label="Fermer">✕</button>
+            </div>
+            <div class="doman-popup__body"></div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    const titleEl = overlay.querySelector(".doman-popup__header h3");
+    const bodyEl = overlay.querySelector(".doman-popup__body");
+    function renderDomanContent() {
+        const lang = getLang();
+        const content = DOMAN_CONTENT[lang] ?? DOMAN_CONTENT["fr"];
+        titleEl.textContent = content.title;
+        bodyEl.setAttribute("dir", content.dir);
+        bodyEl.innerHTML = content.html;
+    }
+    renderDomanContent();
+    const observer = new MutationObserver(renderDomanContent);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    const close = () => { observer.disconnect(); overlay.remove(); };
+    overlay.querySelector(".doman-popup__close").addEventListener("click", close);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay)
+        close(); });
+}
 // ── Écran 1 : sélection de l'âge ─────────────────────────
 function showAgeSetup() {
     currentCartonScreen = showAgeSetup;
     const months = t("mois", "months", "חודשים");
     const subtitle = t("Âge :", "Age:", "גיל:");
     const title = t("Cartons", "Cards", "קלפים");
+    const infoLabel = t("ℹ", "ℹ", "ℹ");
     readingPanelContent.innerHTML = `
         <div class="cartons-setup">
-            <h2 class="cartons-setup__title">${title}</h2>
+            <h2 class="cartons-setup__title">
+                ${title}
+                <button class="cartons-info-btn" id="cartonsInfoBtn" aria-label="En savoir plus">${infoLabel}</button>
+            </h2>
             <p class="cartons-setup__subtitle">${subtitle}</p>
             <div class="cartons-setup__levels">
                 <button class="cartons-age-btn" data-age="young">0–18 ${months}</button>
@@ -110,6 +258,7 @@ function showAgeSetup() {
             </div>
         </div>
     `;
+    document.getElementById("cartonsInfoBtn")?.addEventListener("click", showDomanPopup);
     readingPanelContent.querySelectorAll(".cartons-age-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             currentAgeGroup = btn.dataset.age;

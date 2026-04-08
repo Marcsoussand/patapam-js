@@ -39,8 +39,8 @@ const translations: Record<Lang, TranslationKeys> = {
     nourriture: "Nourriture",
   },
   en: {
-    title: "The World of Patapam",
-    mainTitle: "The World of Patapam",
+    title: "Patapam's World",
+    mainTitle: "Patapam's World",
     cabaneTitle: "Welcome to Patapam's cabin!",
     bibli: "Library",
     jeux: "Games",
