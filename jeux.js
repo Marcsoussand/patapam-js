@@ -22,7 +22,7 @@ let tttLocked = false;
 let currentScreen = null;
 const PATAPAM_IMAGES = [
     "patapam_debout", "tartuffe", "bobby", "mollasson",
-    "patapon_le_cheval_marron", "rene_le_poney", "betachou", "dartagnan_le_cheval_blanc"
+    "patapon_le_cheval_marron", "dauphinou", "betachou", "dartagnan_le_cheval_blanc"
 ];
 function shuffle(arr) {
     return [...arr].sort(() => Math.random() - 0.5);
@@ -72,17 +72,28 @@ function showMemoryTheme() {
     });
 }
 // ── Démarrage du jeu ─────────────────────────────────────
-function startMemory(theme) {
+async function startMemory(theme) {
     const pairsCount = memoryLevel === 1 ? 4 : memoryLevel === 2 ? 6 : 8;
     if (theme === "patapam") {
         const pool = memoryLevel === 3 ? [...PATAPAM_IMAGES] : shuffle(PATAPAM_IMAGES).slice(0, pairsCount);
         buildMemoryBoard(pool.map(name => `img/${name}.png`));
     }
     else {
-        // Pokémon : IDs aléatoires parmi les 151 de la Gen 1
+        // Pokémon : on interroge la PokeAPI pour obtenir l'URL officielle du sprite
         const ids = shuffle(Array.from({ length: 151 }, (_, i) => i + 1)).slice(0, pairsCount);
-        const urls = ids.map(id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`);
-        buildMemoryBoard(urls);
+        const lang = document.documentElement.lang || "fr";
+        const loadingMsg = lang === "he" ? "טוען..." : lang === "en" ? "Loading..." : "Chargement...";
+        panelContent.innerHTML = `<div class="memory-setup"><p style="color:white;font-size:1.5rem">${loadingMsg}</p></div>`;
+        try {
+            const urls = await Promise.all(ids.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                .then(r => r.json())
+                .then((data) => data.sprites.other["official-artwork"].front_default)));
+            buildMemoryBoard(urls);
+        }
+        catch {
+            const errMsg = lang === "he" ? "שגיאה בטעינה — נסה שוב" : lang === "en" ? "Loading error — try again" : "Erreur de chargement — réessaie !";
+            panelContent.innerHTML = `<div class="memory-setup"><p style="color:white;font-size:1.3rem">${errMsg}</p></div>`;
+        }
     }
 }
 // ── Construction du plateau ──────────────────────────────

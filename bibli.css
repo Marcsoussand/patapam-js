@@ -410,6 +410,9 @@ main {
     white-space: nowrap;
     padding: 0 2rem;
 }
+.card-overlay__word--older {
+    color: #111;
+}
 
 .card-overlay__find {
     display: flex;

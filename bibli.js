@@ -18,10 +18,10 @@ function t(fr, en, he) {
     const l = getLang();
     return l === "he" ? he : l === "en" ? en : fr;
 }
-function fitText(el) {
+function fitText(el, scale = 1) {
     requestAnimationFrame(() => {
-        const maxW = (el.parentElement?.clientWidth ?? window.innerWidth) * 0.92;
-        const maxH = (el.parentElement?.clientHeight ?? window.innerHeight) * 0.80;
+        const maxW = (el.parentElement?.clientWidth ?? window.innerWidth) * 0.92 * scale;
+        const maxH = (el.parentElement?.clientHeight ?? window.innerHeight) * 0.80 * scale;
         let size = Math.min(maxH, maxW);
         el.style.fontSize = size + "px";
         while ((el.scrollWidth > maxW || el.scrollHeight > maxH) && size > 20) {
@@ -46,8 +46,8 @@ const YOUNG_CATEGORIES = [
     {
         key: "famille",
         words: [
-            { fr: "papa", en: "Papa", he: "פאפא", audio: "audio/young/famille/papa.m4a" },
-            { fr: "maman", en: "Maman", he: "מאמאן", audio: "audio/young/famille/maman.m4a" },
+            { fr: "papa", en: "Papa", he: "אבא", audio: "audio/young/famille/papa.m4a" },
+            { fr: "maman", en: "Maman", he: "אמא", audio: "audio/young/famille/maman.m4a" },
             { fr: "aaron", en: "Aaron", he: "אהרון", audio: "audio/young/famille/aaron.m4a" },
             { fr: "naor", en: "Naor", he: "נאור", audio: "audio/young/famille/naor.m4a" },
             { fr: "elon", en: "Elon", he: "אלון", audio: "audio/young/famille/elon.m4a" },
@@ -195,7 +195,14 @@ function playLearnCard(words, index) {
     const word = words[index];
     cardOverlayWord.textContent = t(word.fr, word.en, word.he);
     cardOverlayStop.textContent = t("← Stop", "← Stop", "← עצור");
-    fitText(cardOverlayWord);
+    if (currentAgeGroup === "older") {
+        cardOverlayWord.classList.add("card-overlay__word--older");
+        fitText(cardOverlayWord, 2 / 3);
+    }
+    else {
+        cardOverlayWord.classList.remove("card-overlay__word--older");
+        fitText(cardOverlayWord);
+    }
     currentAudio = new Audio(word.audio);
     currentAudio.play().catch(() => { });
     learnTimer = setTimeout(() => {

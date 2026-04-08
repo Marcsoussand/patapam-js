@@ -21,10 +21,10 @@ function t(fr: string, en: string, he: string): string {
     return l === "he" ? he : l === "en" ? en : fr;
 }
 
-function fitText(el: HTMLElement): void {
+function fitText(el: HTMLElement, scale: number = 1): void {
     requestAnimationFrame(() => {
-        const maxW = (el.parentElement?.clientWidth ?? window.innerWidth) * 0.92;
-        const maxH = (el.parentElement?.clientHeight ?? window.innerHeight) * 0.80;
+        const maxW = (el.parentElement?.clientWidth ?? window.innerWidth) * 0.92 * scale;
+        const maxH = (el.parentElement?.clientHeight ?? window.innerHeight) * 0.80 * scale;
         let size = Math.min(maxH, maxW);
         el.style.fontSize = size + "px";
         while ((el.scrollWidth > maxW || el.scrollHeight > maxH) && size > 20) {
@@ -215,7 +215,13 @@ function playLearnCard(words: CardWord[], index: number): void {
     const word = words[index];
     cardOverlayWord.textContent = t(word.fr, word.en, word.he);
     cardOverlayStop.textContent = t("← Stop", "← Stop", "← עצור");
-    fitText(cardOverlayWord);
+    if (currentAgeGroup === "older") {
+        cardOverlayWord.classList.add("card-overlay__word--older");
+        fitText(cardOverlayWord, 2 / 3);
+    } else {
+        cardOverlayWord.classList.remove("card-overlay__word--older");
+        fitText(cardOverlayWord);
+    }
 
     currentAudio = new Audio(word.audio);
     currentAudio.play().catch(() => {});

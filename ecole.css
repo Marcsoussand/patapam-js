@@ -111,6 +111,23 @@ main [data-i18n="ecole"] {
     -webkit-text-stroke: 1px white;
 }
 
+.ecole-reset-btn {
+    display: block;
+    margin: 0 auto 1rem;
+    padding: 0.4rem 1.2rem;
+    font-family: 'Lilita One', cursive;
+    font-size: 0.95rem;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.ecole-reset-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
 /* ── Lignes SVG ─────────────────────────────────────────── */
 .ecole-lines {
     position: absolute;
@@ -263,9 +280,18 @@ main [data-i18n="ecole"] {
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.4rem;
     text-align: center;
+}
+.ecole-btn-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+.ecole-btn-icon--green {
+    color: #66ff66;
 }
 .ecole-grade-btn:hover {
     background: rgba(255,255,255,0.30);

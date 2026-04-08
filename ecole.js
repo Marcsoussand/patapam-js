@@ -3,11 +3,27 @@
 const ecolePanel = document.getElementById("ecolePanel");
 const ecolePanelContent = document.getElementById("ecolePanelContent");
 const ecolePanelClose = document.getElementById("ecolePanelClose");
-const nodeStates = {
-    1: { status: "unlocked", stars: 0 },
-    2: { status: "locked", stars: 0 },
-    3: { status: "locked", stars: 0 },
-};
+const ECOLE_STORAGE_KEY = "patapam_ecole_nodes";
+function defaultNodeStates() {
+    return {
+        1: { status: "unlocked", stars: 0 },
+        2: { status: "locked", stars: 0 },
+        3: { status: "locked", stars: 0 },
+    };
+}
+function loadNodeStates() {
+    try {
+        const raw = localStorage.getItem(ECOLE_STORAGE_KEY);
+        if (raw)
+            return JSON.parse(raw);
+    }
+    catch { }
+    return defaultNodeStates();
+}
+function saveNodeStates() {
+    localStorage.setItem(ECOLE_STORAGE_KEY, JSON.stringify(nodeStates));
+}
+const nodeStates = loadNodeStates();
 let currentLevel = 1;
 let currentGrade = "cp";
 let currentScreen = null;
@@ -53,13 +69,13 @@ function makeQuestion(level, grade) {
                 const a = rnd(1, 10);
                 const b = rnd(1, 20 - a);
                 const ans = a + b;
-                return { text: `${a} + ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 1, 20)].sort(() => Math.random() - 0.5) };
+                return { text: `${a} + ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 1, 20)].sort(() => Math.random() - 0.5), isLtr: true };
             }
             default: {
                 const a = rnd(10, 50);
                 const b = rnd(1, a);
                 const ans = a - b;
-                return { text: `${a} - ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 0, 50)].sort(() => Math.random() - 0.5) };
+                return { text: `${a} - ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 0, 50)].sort(() => Math.random() - 0.5), isLtr: true };
             }
         }
     }
@@ -70,20 +86,20 @@ function makeQuestion(level, grade) {
                     const a = rnd(10, 90);
                     const b = rnd(1, 100 - a);
                     const ans = a + b;
-                    return { text: `${a} + ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 1, 100)].sort(() => Math.random() - 0.5) };
+                    return { text: `${a} + ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 1, 100)].sort(() => Math.random() - 0.5), isLtr: true };
                 }
                 else {
                     const a = rnd(20, 100);
                     const b = rnd(1, a - 1);
                     const ans = a - b;
-                    return { text: `${a} - ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 0, 100)].sort(() => Math.random() - 0.5) };
+                    return { text: `${a} - ${b} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 0, 100)].sort(() => Math.random() - 0.5), isLtr: true };
                 }
             }
             case 2: {
                 const mult = [2, 5, 10][rnd(0, 2)];
                 const n = rnd(2, 10);
                 const ans = n * mult;
-                return { text: `${n} × ${mult} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 2, 100)].sort(() => Math.random() - 0.5) };
+                return { text: `${n} × ${mult} = ?`, answer: ans, choices: [ans, ...wrongChoices(ans, 2, 100)].sort(() => Math.random() - 0.5), isLtr: true };
             }
             default: {
                 if (rnd(0, 1) === 0) {
@@ -158,7 +174,7 @@ const QUESTIONS_PER_LEVEL = 5;
 function playQuestions(level, grade, index, errors) {
     currentScreen = null;
     if (index >= QUESTIONS_PER_LEVEL) {
-        showLevelResult(level, errors === 0 ? 3 : errors === 1 ? 2 : 1);
+        showLevelResult(level, errors >= QUESTIONS_PER_LEVEL ? 0 : errors === 0 ? 3 : errors === 1 ? 2 : 1);
         return;
     }
     const q = makeQuestion(level, grade);
@@ -170,7 +186,7 @@ function playQuestions(level, grade, index, errors) {
                 <span class="ecole-progress">${index + 1} / ${QUESTIONS_PER_LEVEL}</span>
             </div>
             ${q.visual ? `<div class="ecole-visual">${q.visual}</div>` : ""}
-            <div class="ecole-question__text">${q.text}</div>
+            <div class="ecole-question__text"${q.isLtr ? ' dir="ltr"' : ""}>${q.text}</div>
             <div class="ecole-choices">
                 ${q.choices.map(c => `<button class="ecole-choice-btn" data-val="${c}">${c}</button>`).join("")}
             </div>
@@ -196,23 +212,37 @@ function playQuestions(level, grade, index, errors) {
 }
 // ── Écran de résultat ─────────────────────────────────────
 function showLevelResult(level, stars) {
-    if (stars > nodeStates[level].stars)
-        nodeStates[level].stars = stars;
-    nodeStates[level].status = "done";
-    if (level < 3)
-        nodeStates[level + 1].status = "unlocked";
+    if (stars > 0) {
+        if (stars > nodeStates[level].stars)
+            nodeStates[level].stars = stars;
+        nodeStates[level].status = "done";
+        if (level < 3)
+            nodeStates[level + 1].status = "unlocked";
+    }
     renderNodes();
-    const starsStr = "★".repeat(stars) + "☆".repeat(3 - stars);
+    saveNodeStates();
+    const starsStr = stars > 0
+        ? "★".repeat(stars) + "☆".repeat(3 - stars)
+        : "☆☆☆";
     const msg = stars === 3 ? t("Parfait !", "Perfect!", "מושלם!")
         : stars === 2 ? t("Très bien !", "Well done!", "כל הכבוד!")
-            : t("Continue !", "Keep going!", "המשך!");
+            : stars === 1 ? t("Continue !", "Keep going!", "המשך!")
+                : t("Courage !", "Try again!", "נסה שוב!");
+    const replayBtn = `<button class="ecole-grade-btn" id="ecoleRetryBtn">
+        ${t("Rejouer", "Play again", "שחק שוב")}
+        <span class="ecole-btn-icon">↺</span>
+    </button>`;
+    const finishBtn = `<button class="ecole-grade-btn ecole-grade-btn--secondary" id="ecoleFinishBtn">
+        ${t("Terminer", "Finish", "סיום")}
+        <span class="ecole-btn-icon ecole-btn-icon--green">✓</span>
+    </button>`;
     ecolePanelContent.innerHTML = `
         <div class="ecole-result">
             <div class="ecole-result__stars">${starsStr}</div>
             <div class="ecole-result__msg">${msg}</div>
             <div class="ecole-result__btns">
-                <button class="ecole-grade-btn" id="ecoleRetryBtn">${t("Rejouer", "Play again", "שחק שוב")}</button>
-                <button class="ecole-grade-btn ecole-grade-btn--secondary" id="ecoleFinishBtn">${t("Terminer", "Finish", "סיום")}</button>
+                ${replayBtn}
+                ${stars > 0 ? finishBtn : ""}
             </div>
         </div>
     `;
@@ -228,6 +258,18 @@ renderNodes();
     });
 });
 ecolePanelClose.addEventListener("click", closePanel);
+document.getElementById("ecoleResetBtn")?.addEventListener("click", () => {
+    const msg = t("Recommencer à zéro ? Toutes les étoiles seront effacées.", "Start over? All stars will be erased.", "להתחיל מחדש? כל הכוכבים יימחקו.");
+    if (confirm(msg)) {
+        localStorage.removeItem(ECOLE_STORAGE_KEY);
+        const fresh = defaultNodeStates();
+        [1, 2, 3].forEach(l => {
+            nodeStates[l].status = fresh[l].status;
+            nodeStates[l].stars = fresh[l].stars;
+        });
+        renderNodes();
+    }
+});
 new MutationObserver(() => {
     if (ecolePanel.classList.contains("is-open") && currentScreen)
         currentScreen();
