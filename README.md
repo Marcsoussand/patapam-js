@@ -1,4 +1,5 @@
 # Patapam is a Developer's Institute hackathon project. 
+![Patapam](img/patapam_debout.png)
 ### It has two goals : 
 
 1. Fulfill Hackathon requirements
