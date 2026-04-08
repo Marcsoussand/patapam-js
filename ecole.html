@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    <link href="patapam.css" rel="stylesheet">
+    <link href="ecole.css" rel="stylesheet">
     <title data-i18n="ecole">Educatif de Patapam</title>
 </head>
 <body>
     <header>
+        <div class="header-left">
+            <a href="patapam.html" class="header-btn header-home" aria-label="Accueil">🏠</a>
+            <a href="cabane.html" class="header-btn header-back" aria-label="Cabane">⬅</a>
+        </div>
+        <span class="header-title" data-i18n="mainTitle">Le Monde de Patapam</span>
         <nav class="lang-switcher">
             <button onclick="setLanguage('fr')" data-lang="fr">
                 <img src="img/fr.png" alt="Français">
@@ -23,7 +28,34 @@
     </header>
     <main>
         <h1 data-i18n="ecole">Educatif</h1>
+
+        <!-- Lignes de connexion (SVG en dessous des ronds) -->
+        <svg class="ecole-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="28" y1="58" x2="50" y2="75" class="ecole-line"/>
+            <line x1="28" y1="58" x2="78" y2="50" class="ecole-line"/>
+        </svg>
+
+        <!-- Ronds numérotés (wrappers position absolue) -->
+        <div class="ecole-node-wrap" style="left:50%;top:75%">
+            <div class="ecole-stars" id="ecoleStars1"></div>
+            <button class="ecole-node ecole-node--unlocked" id="ecoleNode1">1</button>
+        </div>
+        <div class="ecole-node-wrap" style="left:28%;top:58%">
+            <div class="ecole-stars" id="ecoleStars2"></div>
+            <button class="ecole-node ecole-node--locked" id="ecoleNode2">2</button>
+        </div>
+        <div class="ecole-node-wrap" style="left:78%;top:50%">
+            <div class="ecole-stars" id="ecoleStars3"></div>
+            <button class="ecole-node ecole-node--locked" id="ecoleNode3">3</button>
+        </div>
+
+        <!-- Panel de jeu -->
+        <div class="ecole-panel" id="ecolePanel">
+            <div class="ecole-panel__content" id="ecolePanelContent"></div>
+            <button class="ecole-panel__close" id="ecolePanelClose" aria-label="Fermer">✕</button>
+        </div>
     </main>
     <script src="patapam.js"></script>
+    <script src="ecole.js"></script>
 </body>
 </html>

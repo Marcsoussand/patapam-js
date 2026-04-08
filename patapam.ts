@@ -10,6 +10,13 @@ type TranslationKeys = {
   tictactoe: string;
   memory: string;
   memoryLevel: string;
+  cartons: string;
+  months: string;
+  famille: string;
+  corps: string;
+  animaux: string;
+  jouets: string;
+  nourriture: string;
 };
 
 const translations: Record<Lang, TranslationKeys> = {
@@ -23,6 +30,13 @@ const translations: Record<Lang, TranslationKeys> = {
     tictactoe: "Morpion",
     memory: "Memory",
     memoryLevel: "Niveau",
+    cartons: "Cartons",
+    months: "mois",
+    famille: "Famille",
+    corps: "Corps",
+    animaux: "Animaux",
+    jouets: "Jouets",
+    nourriture: "Nourriture",
   },
   en: {
     title: "The World of Patapam",
@@ -34,6 +48,13 @@ const translations: Record<Lang, TranslationKeys> = {
     tictactoe: "Tic Tac Toe",
     memory: "Memory",
     memoryLevel: "Level",
+    cartons: "Cards",
+    months: "months",
+    famille: "Family",
+    corps: "Body",
+    animaux: "Animals",
+    jouets: "Toys",
+    nourriture: "Food",
   },
   he: {
     title: "העולם של פטפם",
@@ -45,6 +66,13 @@ const translations: Record<Lang, TranslationKeys> = {
     tictactoe: "איקס עיגול",
     memory: "זיכרון",
     memoryLevel: "רמה",
+    cartons: "קלפים",
+    months: "חודשים",
+    famille: "משפחה",
+    corps: "גוף",
+    animaux: "חיות",
+    jouets: "צעצועים",
+    nourriture: "אוכל",
   },
 };
 

@@ -60,7 +60,7 @@ function showMemoryTheme() {
                     <img src="img/patapam_debout.png" alt="Patapam">
                 </button>
                 <button class="memory-theme-btn" data-theme="pokemon">
-                    <img src="img/pokemon.svg" alt="Pokémon">
+                    <img src="img/pokemon.svg.png" alt="Pokémon">
                 </button>
             </div>
         </div>
@@ -79,8 +79,10 @@ function startMemory(theme) {
         buildMemoryBoard(pool.map(name => `img/${name}.png`));
     }
     else {
-        // Pokémon — à venir
-        panelContent.innerHTML = `<p class="memory-coming-soon">Pokémon — à venir !</p>`;
+        // Pokémon : IDs aléatoires parmi les 151 de la Gen 1
+        const ids = shuffle(Array.from({ length: 151 }, (_, i) => i + 1)).slice(0, pairsCount);
+        const urls = ids.map(id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`);
+        buildMemoryBoard(urls);
     }
 }
 // ── Construction du plateau ──────────────────────────────

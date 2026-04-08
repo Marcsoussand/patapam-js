@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    <link href="patapam.css" rel="stylesheet">
+    <link href="bibli.css" rel="stylesheet">
     <title data-i18n="bibli">Bibliothèque de Patapam</title>
 </head>
 <body>
     <header>
+        <div class="header-left">
+            <a href="patapam.html" class="header-btn header-home" aria-label="Accueil">🏠</a>
+            <a href="cabane.html" class="header-btn header-back" aria-label="Cabane">⬅</a>
+        </div>
+        <span class="header-title" data-i18n="mainTitle">Le Monde de Patapam</span>
         <nav class="lang-switcher">
             <button onclick="setLanguage('fr')" data-lang="fr">
                 <img src="img/fr.png" alt="Français">
@@ -23,7 +28,28 @@
     </header>
     <main>
         <h1 data-i18n="bibli">Bibliothèque</h1>
+
+        <!-- Panel de lecture -->
+        <div class="reading-panel" id="readingPanel">
+            <div class="reading-panel__content" id="readingPanelContent">
+                <!-- Le contenu de lecture sera injecté ici -->
+            </div>
+            <button class="reading-panel__close" id="readingPanelClose" aria-label="Fermer">✕</button>
+        </div>
+
+        <!-- Zone de sélection -->
+        <div class="bibli-zones">
+            <button class="bibli-zone bibli-zone--right" id="btnCartons">
+                <span data-i18n="cartons">Cartons</span>
+            </button>
+        </div>
     </main>
+    <!-- Overlay plein écran pour le mode Apprendre -->
+    <div class="card-overlay" id="cardOverlay">
+        <button class="card-overlay__stop" id="cardOverlayStop">← Stop</button>
+        <div class="card-overlay__word" id="cardOverlayWord"></div>
+    </div>
     <script src="patapam.js"></script>
+    <script src="bibli.js"></script>
 </body>
 </html>
