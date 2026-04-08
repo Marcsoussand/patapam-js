@@ -1,0 +1,159 @@
+*, html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: rgba(100, 180, 230, 0.55);
+    direction: ltr;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.8rem;
+}
+
+.header-title {
+    font-family: 'Lilita One', cursive;
+    font-size: 1.1rem;
+    color: white;
+    -webkit-text-stroke: 1px red;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.header-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    padding: 3px 8px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: background 0.2s, transform 0.1s;
+    cursor: pointer;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.32);
+    transform: scale(1.1);
+}
+
+main {
+    flex: 1;
+    position: relative;
+    background-image: url('img/patapamlanding.png');
+    background-size: cover;
+    background-position: bottom;
+}
+
+main [data-i18n="mainTitle"] {
+    color: red;
+    font-size: 6rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lilita One', cursive;
+    -webkit-text-stroke: 1px white;
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    justify-content: flex-end;
+    direction: ltr;
+    justify-self: end;
+}
+
+.lang-switcher button {
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+    line-height: 0;
+}
+
+.lang-switcher button img {
+    width: 36px;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.lang-switcher button:hover,
+.lang-switcher button.active {
+    border-color: white;
+}
+
+/* ── Arrow ───────────────────────────────── */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+.arrow {
+    position: absolute;
+    /* Default position: adjust according to the cabin entrance */
+    bottom: 50%;
+    left: 28%;
+    width: 0;
+    height: 0;
+    /* CSS triangle pointing down */
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-top: 48px solid red;
+    animation: blink 0.7s ease-in-out infinite;
+    cursor: pointer;
+    text-decoration: none;
+    /* Center : compensate the translateX of left:50% */
+    transform: translateX(-50%);
+}
+
+/* Direction variants */
+.arrow--down  { transform: translateX(-50%) rotate(0deg);    }
+.arrow--up    { transform: translateX(-50%) rotate(180deg);  }
+.arrow--left  { transform: translateX(-50%) rotate(90deg);   }
+.arrow--right { transform: translateX(-50%) rotate(-90deg);  }
+
+/* Extended click area — invisible, 50px around the arrow */
+.arrow::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+}
+
+/* Arrow tail (stem) — 28px = half of the base 56px */
+.arrow::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 34px;
+    background: red;
+    left: -14px;   /* centered on the element with width 0 */
+    top: -82px;    /* 48px (triangle) + 34px (stem) above the tip */
+}

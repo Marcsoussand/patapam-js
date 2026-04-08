@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="patapam.css" rel="stylesheet">
+    <link href="jeux.css" rel="stylesheet">
+    <title data-i18n="jeux">Jeux de Patapam</title>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="patapam.html" class="header-btn header-home" aria-label="Accueil">🏠</a>
+            <a href="cabane.html" class="header-btn header-back" aria-label="Cabane">⬅</a>
+        </div>
+        <span class="header-title" data-i18n="mainTitle">Le Monde de Patapam</span>
+        <nav class="lang-switcher">
+            <button onclick="setLanguage('fr')" data-lang="fr">
+                <img src="img/fr.png" alt="Français">
+            </button>
+            <button onclick="setLanguage('en')" data-lang="en">
+                <img src="img/eng.png" alt="English">
+            </button>
+            <button onclick="setLanguage('he')" data-lang="he">
+                <img src="img/he.png" alt="עברית">
+            </button>
+        </nav>
+    </header>
+    <main>
+        <h1 data-i18n="jeux">Jeux</h1>
+
+        <!-- Zone semi-transparente -->
+        <div class="game-panel" id="gamePanel">
+            <div class="game-panel__content" id="gamePanelContent">
+                <!-- Le contenu du jeu sera injecté ici -->
+            </div>
+            <button class="game-panel__close" id="gamePanelClose" aria-label="Fermer">✕</button>
+        </div>
+
+        <!-- Zones de sélection -->
+        <div class="game-zones">
+            <button class="game-zone game-zone--left" id="btnTicTacToe">
+                <span data-i18n="tictactoe">Morpion</span>
+            </button>
+            <button class="game-zone game-zone--right" id="btnMemory">
+                <span data-i18n="memory">Memory</span>
+            </button>
+        </div>
+    </main>
+    <script src="patapam.js"></script>
+    <script src="jeux.js"></script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+main {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-image: url('img/salledejeux.png');
+    background-size: cover;
+    background-position: bottom;
+}
+
+[data-i18n="jeux"] {
+    color: red;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Lilita One', cursive;
+    -webkit-text-stroke: 1px white;
+}
+
+/* ── Zones de sélection ─────────────────────────────────── */
+.game-zones {
+    flex: 1;
+    display: flex;
+    direction: ltr;
+}
+
+.game-zone {
+    flex: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-family: 'Lilita One', cursive;
+    color: #00008B;
+    -webkit-text-stroke: 2px white;
+    transition: background-color 0.2s;
+    direction: inherit;
+}
+
+.game-zone--left {
+    margin-bottom: 25%;
+    margin-right: 18%;
+}
+
+.game-zone--right {
+    margin-bottom: 25%;
+    margin-left: 18%;
+}
+
+.game-zone:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Panel semi-transparent ─────────────────────────────── */
+.game-panel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 16px;
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-panel.is-open {
+    display: flex;
+}
+
+.game-panel__content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Lilita One', cursive;
+    font-size: 2rem;
+}
+
+.game-panel__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 1.2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-panel__close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Memory : écrans de setup ───────────────────────────── */
+.memory-setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    color: white;
+    font-family: 'Lilita One', cursive;
+}
+
+.memory-setup__title {
+    font-size: 3rem;
+    margin: 0;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.4);
+}
+
+.memory-setup__subtitle {
+    font-size: 1.6rem;
+    margin: 0;
+    opacity: 0.85;
+}
+
+.memory-setup__stats {
+    font-size: 1.4rem;
+    margin: 0;
+    opacity: 0.9;
+    letter-spacing: 0.03em;
+}
+
+.memory-setup__levels {
+    display: flex;
+    gap: 2rem;
+}
+
+.memory-level-btn {
+    width: 5rem;
+    height: 5rem;
+    font-size: 3rem;
+    font-family: 'Lilita One', cursive;
+    background: rgba(255, 255, 255, 0.15);
+    border: 3px solid white;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.memory-level-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+}
+
+.ttt-mark-btn[data-mark="O"] {
+    font-size: 5.4rem;
+    line-height: 0;
+}
+
+.memory-setup__themes {
+    display: flex;
+    gap: 3rem;
+}
+
+.memory-theme-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 3px solid white;
+    border-radius: 16px;
+    cursor: pointer;
+    padding: 0.75rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.memory-theme-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.06);
+}
+
+.memory-theme-btn img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    display: block;
+}
+
+.memory-coming-soon {
+    color: white;
+    font-family: 'Lilita One', cursive;
+    font-size: 2rem;
+}
+
+/* ── Memory : plateau de jeu ────────────────────────────── */
+.memory-board {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    align-content: center;
+    justify-content: center;
+}
+
+/* 4 paires → grille 4×2 */
+.memory-board--1 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+/* 6 paires → grille 4×3 */
+.memory-board--2 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+/* 8 paires → grille 4×4 */
+.memory-board--3 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+/* ── Memory : carte ─────────────────────────────────────── */
+.memory-card {
+    perspective: 600px;
+    cursor: pointer;
+    min-width: 80px;
+    min-height: 80px;
+}
+
+.memory-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+}
+
+.memory-card.is-flipped .memory-card__inner,
+.memory-card.is-matched .memory-card__inner {
+    transform: rotateY(180deg);
+}
+
+.memory-card__back,
+.memory-card__front {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.memory-card__back {
+    background: #00008B;
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.memory-card__front {
+    background: white;
+    border: 3px solid rgba(0,0,139,0.3);
+    transform: rotateY(180deg);
+}
+
+.memory-card__front img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+}
+
+.memory-card.is-matched .memory-card__back,
+.memory-card.is-matched .memory-card__front {
+    border-color: #4CAF50;
+}
+
+/* ── Tic Tac Toe : boutons de niveau ────────────────────── */
+.ttt-diff-btn {
+    width: auto;
+    min-width: 7.5rem;
+    padding: 0 1.2rem;
+    font-size: 1.8rem;
+}
+
+/* ── Tic Tac Toe : plateau ──────────────────────────────── */
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.6rem;
+    padding: 1rem;
+    width: min(340px, 78vw);
+    height: min(340px, 78vw);
+    box-sizing: border-box;
+}
+
+.ttt-cell {
+    background: rgba(255, 255, 255, 0.12);
+    border: 3px solid rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    font-family: 'Lilita One', cursive;
+    font-size: 3.2rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.ttt-cell:not(:disabled):hover {
+    background: rgba(255, 255, 255, 0.28);
+    transform: scale(1.06);
+}
+
+.ttt-cell:disabled {
+    cursor: default;
+}
+
+.ttt-cell--x {
+    color: #ff6b6b;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+}
+
+.ttt-cell--o {
+    color: #74c0fc;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+    font-size: 5.8rem;
+    line-height: 0;
+}
+
+.ttt-cell--winner {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: gold;
+    box-shadow: 0 0 14px gold;
+}
+
