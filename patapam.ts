@@ -12,6 +12,7 @@ type TranslationKeys = {
   memoryLevel: string;
   cartons: string;
   months: string;
+  recommencer: string;
   famille: string;
   corps: string;
   animaux: string;
@@ -32,6 +33,7 @@ const translations: Record<Lang, TranslationKeys> = {
     memoryLevel: "Niveau",
     cartons: "Cartons",
     months: "mois",
+    recommencer: "Recommencer",
     famille: "Famille",
     corps: "Corps",
     animaux: "Animaux",
@@ -50,6 +52,7 @@ const translations: Record<Lang, TranslationKeys> = {
     memoryLevel: "Level",
     cartons: "Cards",
     months: "months",
+    recommencer: "Start over",
     famille: "Family",
     corps: "Body",
     animaux: "Animals",
@@ -68,6 +71,7 @@ const translations: Record<Lang, TranslationKeys> = {
     memoryLevel: "רמה",
     cartons: "קלפים",
     months: "חודשים",
+    recommencer: "התחל מחדש",
     famille: "משפחה",
     corps: "גוף",
     animaux: "חיות",
