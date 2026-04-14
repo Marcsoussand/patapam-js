@@ -447,6 +447,10 @@ function showPatapafSetup() {
                     🤖<br>vs IA
                 </button>
             </div>
+            <button class="memory-level-btn" id="patapafRulesBtn"
+                style="min-width:7rem;font-size:1rem;height:auto;padding:0.4rem 1rem">
+                📖 Règles
+            </button>
         </div>
     `;
     panelContent.querySelectorAll(".patapaf-mode-btn").forEach(btn => {
@@ -456,6 +460,7 @@ function showPatapafSetup() {
             else startPatapaf();
         });
     });
+    document.getElementById("patapafRulesBtn")?.addEventListener("click", () => showPatapafRules(false));
 }
 
 // ── Écran de sélection du niveau IA ──────────────────────
@@ -485,6 +490,68 @@ function showPatapafAISetup() {
             patapafAILevel = parseInt(btn.dataset.level);
             startPatapaf();
         });
+    });
+}
+
+// ── Règles du jeu ─────────────────────────────────────────
+function showPatapafRules(fromGame) {
+    const lang = document.documentElement.lang || "fr";
+    const texts = {
+        fr: {
+            title: "📖 Règles",
+            objective: "<b>🎯 Objectif :</b> Remporte le plus de cartes en explorant le monde de Patapam. Mais attention à Bétachou et René le Poney !",
+            how: "<b>🃏 Comment jouer :</b> À ton tour, clique sur une carte pour la retourner. Tu peux continuer d'en retourner d'autres pour compléter des ensembles… ou t'arrêter et cliquer sur <i>✅ Je ramasse</i> pour garder les ensembles complets. Les cartes qui ne forment pas d'ensemble sont remises face cachée en fin de tour.",
+            sets: "<b>🏷 Ensembles :</b> Le chiffre sur chaque carte indique combien il en faut. Dauphinou : 1 &nbsp;·&nbsp; Bobby / Mollasson / Patapon : 2 &nbsp;·&nbsp; Tartuffe : 3 &nbsp;·&nbsp; Patapam : 4",
+            example: "<b>📌 Exemple :</b> Tu retournes 2 Bobby, 4 Tartuffe, 1 Mollasson et 2 Patapon. En t'arrêtant, tu gardes 2 Bobby, 3 Tartuffe et 2 Patapon. Si tu continues et tombes sur un Bétachou ou René, tu perds tout.",
+            betachou: "<b>🐲 Bétachou :</b> Si tu retournes un Bétachou <em>après</em> un trésor → tour terminé, tout repart face cachée. Si Bétachou est la <em>première</em> carte dévoilée, continue : tu peux accumuler des Bétachou ! Si tu ne retournes que des Bétachou, tu peux tous les garder. Celui qui a le plus de Bétachou à la fin reçoit les 3 cartes René en bonus (en cas d'égalité, personne ne les reçoit).",
+            rene: "<b>🐴 René le Poney :</b> Toutes les cartes retournées repartent face cachée. Tour terminé, rien ramassé.",
+            end: "<b>🏁 Fin de partie :</b> Quand il ne reste que les 3 cartes René en jeu, la partie s'arrête. Les cartes René vont au joueur avec le plus de Bétachou. Le joueur avec le plus de cartes gagne. En cas d'égalité, celui avec le plus de Bétachou l'emporte.",
+            back: "↩",
+        },
+        en: {
+            title: "📖 Rules",
+            objective: "<b>🎯 Objective:</b> Collect the most cards by exploring the world of Patapam. But watch out for Bétachou and René le Poney!",
+            how: "<b>🃏 How to play:</b> On your turn, click a card to flip it face up. Keep flipping more to build complete sets… or stop and click <i>✅ Collect</i> to keep your completed sets. Cards that don't form a complete set are flipped back at the end of your turn.",
+            sets: "<b>🏷 Sets:</b> The number on each card shows how many you need. Dauphinou: 1 &nbsp;·&nbsp; Bobby / Mollasson / Patapon: 2 &nbsp;·&nbsp; Tartuffe: 3 &nbsp;·&nbsp; Patapam: 4",
+            example: "<b>📌 Example:</b> You flip 2 Bobby, 4 Tartuffe, 1 Mollasson and 2 Patapon. By stopping, you keep 2 Bobby, 3 Tartuffe and 2 Patapon. If you keep going and hit a Bétachou or René, you lose everything.",
+            betachou: "<b>🐲 Bétachou:</b> If you flip a Bétachou <em>after</em> a treasure card → turn over, all flip back. If Bétachou is the <em>first</em> card you flip, keep going — you can collect multiple Bétachous! If you flip only Bétachous, you can keep them all. The player with the most Bétachous at the end receives the 3 René cards as a bonus (if tied, nobody gets them).",
+            rene: "<b>🐴 René le Poney:</b> All face-up cards flip back. Turn over, nothing collected.",
+            end: "<b>🏁 End of game:</b> When only the 3 René cards remain in play, the game ends. René cards go to the player with the most Bétachous. Most cards wins. If tied, most Bétachous wins.",
+            back: "↩",
+        },
+        he: {
+            title: "📖 חוקים",
+            objective: "<b>🎯 מטרה:</b> אסוף כמה שיותר קלפים בעולמו של Patapam. אבל היזהר מ-Bétachou ומ-René le Poney!",
+            how: "<b>🃏 איך משחקים:</b> בתורך, לחץ על קלף להפכו פנים למעלה. המשך להפוך קלפים נוספים כדי להשלים אוספים… או עצור ולחץ <i>✅ אסוף</i> לשמור על האוספים השלמים. קלפים שלא השלימו אוסף חוזרים פנים למטה בסוף התור.",
+            sets: "<b>🏷 אוספים:</b> המספר על כל קלף מציין כמה צריך. Dauphinou: 1 &nbsp;·&nbsp; Bobby / Mollasson / Patapon: 2 &nbsp;·&nbsp; Tartuffe: 3 &nbsp;·&nbsp; Patapam: 4",
+            example: "<b>📌 דוגמה:</b> הפכת 2 Bobby, 4 Tartuffe, 1 Mollasson ו-2 Patapon. אם תעצור, תשמור 2 Bobby, 3 Tartuffe ו-2 Patapon. אם תמשיך ותפגוש Bétachou או René, תפסיד הכל.",
+            betachou: "<b>🐲 Bétachou:</b> הפכת Bétachou <em>אחרי</em> קלף אוצר → סוף התור, הכל חוזר פנים למטה. אם Bétachou הוא <em>הקלף הראשון</em> שהפכת, תוכל להמשיך ולאסוף עוד Bétachou! אם הפכת רק Bétachou, תוכל לשמור את כולם. מי שיש לו הכי הרבה Bétachou בסוף מקבל את 3 קלפי René בונוס (בשוויון — אף אחד לא מקבל).",
+            rene: "<b>🐴 René le Poney:</b> כל הקלפים הפוכים חוזרים פנים למטה. סוף התור, לא אוספים כלום.",
+            end: "<b>🏁 סיום המשחק:</b> כשנשארים רק 3 קלפי René בשולחן, המשחק נגמר. קלפי René ניתנים לשחקן עם הכי הרבה Bétachou. מי שיש לו הכי הרבה קלפים מנצח. בשוויון — מי שיש לו הכי הרבה Bétachou מנצח.",
+            back: "↩",
+        },
+    };
+    const t = texts[lang] || texts.fr;
+    panel.classList.add("game-panel--opaque");
+    panelContent.innerHTML = `
+        <div class="patapaf-rules">
+            <h2 class="patapaf-rules__title">${t.title}</h2>
+            <div class="patapaf-rules__body">
+                <p class="patapaf-rules__row">${t.objective}</p>
+                <p class="patapaf-rules__row">${t.how}</p>
+                <p class="patapaf-rules__row">${t.sets}</p>
+                <p class="patapaf-rules__row">${t.example}</p>
+                <p class="patapaf-rules__row">${t.betachou}</p>
+                <p class="patapaf-rules__row">${t.rene}</p>
+                <p class="patapaf-rules__row">${t.end}</p>
+            </div>
+            <button class="memory-level-btn" id="patapafRulesBack" style="margin-top:0.5rem">${t.back}</button>
+        </div>
+    `;
+    document.getElementById("patapafRulesBack")?.addEventListener("click", () => {
+        panel.classList.remove("game-panel--opaque");
+        if (fromGame) renderPatapaf();
+        else showPatapafSetup();
     });
 }
 
@@ -564,13 +631,14 @@ function renderPatapaf() {
                     ✅ Je ramasse
                 </button>
                 <div class="patapaf-status">${statusText}</div>
+                <button class="patapaf-info-btn" id="patapafInfoBtn" title="Règles">ⓘ</button>
                 <div class="patapaf-score patapaf-score--green${patapafCurrentPlayer === 1 ? " patapaf-score--active" : ""}">
                     <div class="patapaf-score__name">${p2Name}</div>
                     <div class="patapaf-score__count">🃏 ${patapafScores[1].length}</div>
                     <div class="patapaf-score__details">🐲 ${betachou1}</div>
                 </div>
             </div>
-            <div class="patapaf-grid" id="patapafGrid">
+            <div class="patapaf-grid${patapafLocked ? ' patapaf-grid--locked' : ''}" id="patapafGrid">
                 ${patapafGrid.map((card, i) => patapafRenderCard(card, i)).join("")}
             </div>
         </div>
@@ -582,6 +650,7 @@ function renderPatapaf() {
         });
     }
     document.getElementById("patapafCollectBtn")?.addEventListener("click", patapafPlayerCollect);
+    document.getElementById("patapafInfoBtn")?.addEventListener("click", () => showPatapafRules(true));
 }
 
 function patapafRenderCard(card, i) {
@@ -648,7 +717,9 @@ function patapafCollectSets(player) {
 }
 
 // ── Retournement d'une carte (logique commune humain/IA) ──
-function patapafDoFlip(idx) {
+// animDelay : ms d'affichage avant traitement (null = auto selon type de carte)
+// thinkDelay : ms avant que l'IA rappelle patapafAIDecide
+function patapafDoFlip(idx, animDelay = null, thinkDelay = 800) {
     const card = patapafGrid[idx];
     if (card.faceUp || card.collected) return;
 
@@ -659,6 +730,7 @@ function patapafDoFlip(idx) {
 
     renderPatapaf();
 
+    const baseDelay = card.isSpider || (card.isDragon && !patapafFaceUpIndices.every(i => patapafGrid[i].isDragon)) ? 1200 : 380;
     setTimeout(() => {
         if (card.isSpider) {
             // René le Poney : tout repart face cachée
@@ -672,11 +744,16 @@ function patapafDoFlip(idx) {
             const allAreBetachou = patapafFaceUpIndices.every(i => patapafGrid[i].isDragon);
             if (allAreBetachou) {
                 // Mode Bétachou pur : débloque le joueur (peut continuer ou ramasser)
-                patapafLocked = false;
-                renderPatapaf();
-                if (patapafMode === "ai" && patapafCurrentPlayer === 1) {
-                    setTimeout(patapafAIDecide, 800);
-                }
+                // Délai anti-triche : garde la grille verrouillée 250ms après l'animation
+                // pour éviter les clics rapides qui révèlent des cartes involontairement
+                const humanUnlockDelay = (patapafMode === "ai" && patapafCurrentPlayer === 1) ? 0 : 250;
+                setTimeout(() => {
+                    patapafLocked = false;
+                    renderPatapaf();
+                    if (patapafMode === "ai" && patapafCurrentPlayer === 1) {
+                        setTimeout(patapafAIDecide, thinkDelay);
+                    }
+                }, humanUnlockDelay);
             } else {
                 // Mélange trésor + Bétachou → tout repart face cachée, rien ramassé
                 patapafFaceUpIndices.forEach(i => { patapafGrid[i].faceUp = false; });
@@ -698,14 +775,18 @@ function patapafDoFlip(idx) {
                 setTimeout(() => patapafEndTurn(), 600);
             } else {
                 // Mode trésor normal : le joueur peut continuer ou ramasser
-                patapafLocked = false;
-                renderPatapaf();
-                if (patapafMode === "ai" && patapafCurrentPlayer === 1) {
-                    setTimeout(patapafAIDecide, 800);
-                }
+                // Délai anti-triche identique au cas Bétachou
+                const humanUnlockDelay = (patapafMode === "ai" && patapafCurrentPlayer === 1) ? 0 : 250;
+                setTimeout(() => {
+                    patapafLocked = false;
+                    renderPatapaf();
+                    if (patapafMode === "ai" && patapafCurrentPlayer === 1) {
+                        setTimeout(patapafAIDecide, thinkDelay);
+                    }
+                }, humanUnlockDelay);
             }
         }
-    }, card.isSpider || (card.isDragon && !patapafFaceUpIndices.every(i => patapafGrid[i].isDragon)) ? 1200 : 380);
+    }, animDelay ?? baseDelay);
 }
 
 // ── Clic humain ───────────────────────────────────────────
@@ -860,6 +941,7 @@ function patapafAIPickAndFlip(useMemory) {
     if (faceDown.length === 0) { patapafEndTurn(); return; }
 
     let targetIdx;
+    let isKnownCard = false;
     if (useMemory) {
         const knownSafe = patapafAIKnownSafeIndices();
         if (knownSafe.length > 0) {
@@ -873,6 +955,7 @@ function patapafAIPickAndFlip(useMemory) {
                 return (patapafGrid[b].setValue || 0) - (patapafGrid[a].setValue || 0);
             });
             targetIdx = knownSafe[0];
+            isKnownCard = true;
         } else {
             // Cartes jamais vues : choisit parmi les inconnues
             // Si des trésors sont déjà face visibles, évite les Bétachou/René connus
@@ -893,7 +976,8 @@ function patapafAIPickAndFlip(useMemory) {
     }
 
     patapafAIFlipsDone++;
-    patapafDoFlip(targetIdx);
+    // Cartes connues : animation raccourcie (180ms) + réflexion plus courte (350ms)
+    patapafDoFlip(targetIdx, isKnownCard ? 180 : null, isKnownCard ? 350 : 800);
 }
 
 function patapafAIDoCollect() {
