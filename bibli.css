@@ -152,6 +152,14 @@ main {
     height: 35%;
 }
 
+.bibli-zone--right-top {
+    position: absolute;
+    bottom: 47%;
+    right: 0;
+    width: 50%;
+    height: 35%;
+}
+
 .bibli-zone:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }

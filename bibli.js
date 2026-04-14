@@ -4,6 +4,7 @@ const readingPanel = document.getElementById("readingPanel");
 const readingPanelContent = document.getElementById("readingPanelContent");
 const readingPanelClose = document.getElementById("readingPanelClose");
 const btnCartons = document.getElementById("btnCartons");
+const btnLecture = document.getElementById("btnLecture");
 const cardOverlay = document.getElementById("cardOverlay");
 const cardOverlayStop = document.getElementById("cardOverlayStop");
 const cardOverlayWord = document.getElementById("cardOverlayWord");
@@ -472,4 +473,16 @@ cardOverlayStop.addEventListener("click", () => {
     showModeSetup();
 });
 btnCartons.addEventListener("click", openReading);
+btnLecture.addEventListener("click", () => {
+    const lang = document.documentElement.lang || "fr";
+    const title = lang === "he" ? "קריאה הברתית" : lang === "en" ? "Syllabic Reading" : "Lecture syllabique";
+    const soon = lang === "he" ? "בקרוב..." : lang === "en" ? "Coming soon..." : "À venir...";
+    readingPanelContent.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;color:white;font-family:'Lilita One',cursive;text-align:center">
+            <h2 style="font-size:2.5rem;margin:0;-webkit-text-stroke:1px rgba(0,0,0,0.4)">${title}</h2>
+            <p style="font-size:1.6rem;margin:0;opacity:0.8">${soon}</p>
+        </div>
+    `;
+    readingPanel.classList.add("is-open");
+});
 readingPanelClose.addEventListener("click", closeReading);
