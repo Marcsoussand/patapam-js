@@ -653,3 +653,167 @@ main {
     opacity: 0.9;
 }
 
+/* ── Mobile ≤ 768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+    main {
+        background-image: url('img/salledejeux_mobile.png');
+        background-position: center;
+    }
+
+    [data-i18n="jeux"] {
+        font-size: 2rem;
+        margin-top: 0.3rem;
+    }
+
+    .game-zone {
+        font-size: 1.6rem;
+    }
+
+    .game-zone--left {
+        margin-bottom: 23%;
+        margin-right: 32%;
+    }
+
+    .game-zone--right {
+        margin-bottom: 12%;
+        margin-left: 8%;
+    }
+
+    .game-zones__bottom {
+        height: 35%;
+        padding-left: 0;
+        justify-content: center;
+    }
+
+    .game-zone--bottom {
+        margin-right: 0;
+        margin-bottom: 20%;
+        justify-content: center;
+    }
+
+    /* Memory : écran de setup */
+    .memory-setup {
+        gap: 0.8rem;
+    }
+
+    .memory-setup__title {
+        font-size: 2rem;
+    }
+
+    .memory-setup__subtitle {
+        font-size: 1.2rem;
+    }
+
+    .memory-setup__themes {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .memory-theme-btn img {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Memory : plateau – cartes carrées ajustées sur l'image */
+    .memory-board {
+        height: auto;
+        gap: 0.35rem;
+        padding: 0.5rem;
+    }
+
+    .memory-board--1 {
+        grid-template-columns: repeat(2, min(32vw, 17vh));
+        grid-template-rows: repeat(4,  min(32vw, 17vh));
+    }
+
+    .memory-board--2 {
+        grid-template-columns: repeat(3, min(26vw, 15vh));
+        grid-template-rows: repeat(4,  min(26vw, 15vh));
+    }
+
+    .memory-board--3 {
+        grid-template-columns: repeat(4, min(17vw, 13vh));
+        grid-template-rows: repeat(4,  min(17vw, 13vh));
+    }
+
+    .memory-card {
+        min-width: unset;
+        min-height: unset;
+        aspect-ratio: 1;
+    }
+
+    /* Patapaf : ligne 1 = croix seule (absolute), pushée par padding-top */
+    .patapaf-container {
+        padding-top: 2.8rem;
+    }
+
+    /* Patapaf : barre de scores – ligne 2 (bleu/vert) + ligne 3 (boutons) */
+    .patapaf-scores {
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        row-gap: 0.3rem;
+        justify-content: center;
+    }
+
+    .patapaf-score--blue {
+        order: 1;
+        flex: 0 0 44%;
+    }
+
+    .patapaf-score--green {
+        order: 2;
+        flex: 0 0 44%;
+        margin-right: 0;
+    }
+
+    /* ligne 3 : ramasser + statut + ⓘ */
+    .patapaf-collect-btn {
+        order: 3;
+        font-size: 0.7rem;
+        padding: 0.15rem 0.5rem;
+    }
+
+    .patapaf-status {
+        order: 4;
+        flex: 1;
+        font-size: 0.65rem;
+        padding: 0 0.1rem;
+    }
+
+    .patapaf-info-btn {
+        order: 5;
+    }
+
+    .patapaf-score {
+        padding: 0.1rem 0.3rem;
+        min-width: unset;
+    }
+
+    .patapaf-score__name {
+        font-size: 0.6rem;
+    }
+
+    .patapaf-score__count {
+        font-size: 0.85rem;
+    }
+
+    .patapaf-score__details {
+        font-size: 0.55rem;
+    }
+
+    /* Patapaf : ligne vide + grille 7×7 compacte */
+    .patapaf-grid {
+        flex: 0 0 auto;
+        grid-template-rows: unset;
+        grid-auto-rows: auto;
+        gap: 1px;
+        width: 100%;
+        margin-top: 0.6rem;
+    }
+
+    .patapaf-card {
+        aspect-ratio: 1;
+    }
+}
+
