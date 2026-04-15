@@ -48,3 +48,33 @@ main {
     align-items: flex-start;
     margin-top: 80px;
 }
+
+/* ── Mobile ≤ 768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+    main {
+        background-image: url('img/cabane_mobile.png');
+        background-position: center;
+    }
+
+    [data-i18n="cabaneTitle"] {
+        font-size: 1.4rem;
+        margin-top: 0.3rem;
+    }
+
+    .zones {
+        flex-direction: column;
+    }
+
+    .zone {
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0;
+        padding: 0.5rem;
+        font-size: 1.8rem;
+    }
+
+    .zone--middle {
+        align-items: center;
+        margin-top: 0;
+    }
+}

@@ -168,6 +168,47 @@ main [data-i18n="mainTitle"] {
 .arrow--down  { transform: translateX(-50%) rotate(0deg);    }
 .arrow--up    { transform: translateX(-50%) rotate(180deg);  }
 .arrow--left  { transform: translateX(-50%) rotate(90deg);   }
+
+/* ── Mobile ≤ 768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+    main {
+        background-image: url('img/patapam_mobile.png');
+        background-position: center;
+    }
+
+    main [data-i18n="mainTitle"] {
+        font-size: 2rem;
+        margin-top: 0.8rem;
+    }
+
+    .landing-welcome {
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+        padding: 0.9rem 1rem 1.2rem;
+        box-sizing: border-box;
+    }
+
+    .landing-welcome__title {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .landing-welcome__text {
+        font-size: 0.72rem;
+        line-height: 1.5;
+    }
+
+    .arrow {
+        left: 37%;
+        bottom: 62%;
+    }
+}
 .arrow--right { transform: translateX(-50%) rotate(-90deg);  }
 
 /* Extended click area — invisible, 50px around the arrow */
