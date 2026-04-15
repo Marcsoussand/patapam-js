@@ -3,6 +3,8 @@ const translations = {
     fr: {
         title: "Le Monde de Patapam",
         mainTitle: "Le Monde de Patapam",
+        welcomeTitle: "Bienvenue chez Patapam l’hippopotame !",
+        welcomeText: "Un monde imaginaire où les enfants peuvent s’amuser en apprenant, de la lecture aux mathématiques en passant par de la géographie et des jeux à portée éducative. Venez rencontrer Tartuffe l’ours en peluche, Bobby l’éléphant ou encore Bétachou, bête à manger du foin, dans les aventures de Patapam !!",
         cabaneTitle: "Bienvenue dans la cabane de Patapam !",
         bibli: "Bibliothèque",
         jeux: "Jeux",
@@ -23,6 +25,8 @@ const translations = {
     en: {
         title: "Patapam's World",
         mainTitle: "Patapam's World",
+        welcomeTitle: "Welcome to Patapam the Hippo's world!",
+        welcomeText: "An imaginary world where children can learn while having fun — from reading and maths to geography and educational games. Come meet Tartuffe the teddy bear, Bobby the elephant, and Bétachou, the silliest creature around, in Patapam's adventures!!",
         cabaneTitle: "Welcome to Patapam's cabin!",
         bibli: "Library",
         jeux: "Games",
@@ -43,6 +47,8 @@ const translations = {
     he: {
         title: "העולם של פטפם",
         mainTitle: "העולם של פטפם",
+        welcomeTitle: "ברוכים הבאים אל עולמו של פטפם ההיפופוטם!",
+        welcomeText: "עולם דמיוני שבו ילדים יכולים להנות וללמוד בו זמנית — מקריאה ומתמטיקה ועד גיאוגרפיה ומשחקים חינוכיים. בואו להכיר את טארטוף הדוב הצעצוע, את בובי הפיל ואת בטצואו המשוגע בהרפתקאות של פטפם!!",
         cabaneTitle: "ברוכים הבאים לצריף של פטפם!",
         bibli: "ספריה",
         jeux: "משחקים",
