@@ -214,7 +214,7 @@ main [data-i18n="ecole"] {
     transform: translate(-50%, -50%);
     width: 80vw;
     height: 80vh;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(10, 20, 40, 0.88);
     border-radius: 16px;
     z-index: 100;
     flex-direction: column;
@@ -402,4 +402,93 @@ main [data-i18n="ecole"] {
 .ecole-result__btns {
     display: flex;
     gap: 2rem;
+}
+
+.ecole-lines--mobile { display: none; }
+
+/* ── Mobile ≤ 768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+    main {
+        background-image: url('img/educatif_mobile.png');
+        background-position: center;
+    }
+
+    main [data-i18n="ecole"] {
+        font-size: 2rem;
+        margin-top: 0.5rem;
+    }
+
+    .ecole-node {
+        width: 3.8rem;
+        height: 3.8rem;
+        font-size: 1.8rem;
+    }
+
+    /* Repositionnement des nœuds sur les personnages */
+    #ecoleNodeWrap1 { left: 50% !important; top: 83% !important; }
+    #ecoleNodeWrap2 { left: 22% !important; top: 49% !important; }
+    #ecoleNodeWrap3 { left: 72% !important; top: 39% !important; }
+
+    /* Swap SVG lignes: desktop caché, mobile affiché */
+    .ecole-lines--desktop { display: none; }
+    .ecole-lines--mobile  { display: block; }
+
+    /* Étoiles résultat : 2 lignes max sans déborder */
+    .ecole-result__stars {
+        font-size: 2.2rem;
+        letter-spacing: 0.15rem;
+        text-align: center;
+        line-height: 1.4;
+        max-width: 90%;
+        word-break: break-all;
+    }
+
+    /* Choix du niveau : colonne + boutons plus compacts */
+    .ecole-setup {
+        gap: 1rem;
+    }
+
+    .ecole-setup__title {
+        font-size: 1.8rem;
+    }
+
+    .ecole-setup__levels {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .ecole-grade-btn {
+        width: 10rem;
+        height: 7rem;
+        font-size: 1.3rem;
+    }
+
+    /* Header titre sur 2 lignes pour laisser place au 3e drapeau */
+    .header-title {
+        white-space: normal;
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
+
+    /* Question : réduire les gaps et tailles pour tout faire rentrer */
+    .ecole-question {
+        gap: 0.7rem;
+        padding: 1rem 1rem;
+    }
+
+    .ecole-question__text {
+        font-size: 2rem;
+    }
+
+    .ecole-visual {
+        font-size: 2rem;
+        line-height: 1.5;
+    }
+
+    .ecole-choice-btn {
+        min-width: 6rem;
+        padding: 0.7rem 1rem;
+        font-size: 1.6rem;
+    }
 }

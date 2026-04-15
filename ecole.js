@@ -63,7 +63,8 @@ function makeQuestion(level, grade) {
                 const emoji = emojis[rnd(0, emojis.length - 1)];
                 const count = rnd(1, 10);
                 const choices = [count, ...wrongChoices(count, 1, 10)].sort(() => Math.random() - 0.5);
-                return { text: t("Combien y en a-t-il ?", "How many?", "כמה יש?"), visual: emoji.repeat(count), answer: count, choices };
+                const visual = Array.from({length: Math.ceil(count / 5)}, (_, i) => emoji.repeat(Math.min(5, count - i * 5))).join('<br>');
+                return { text: t("Combien y en a-t-il ?", "How many?", "כמה יש?"), visual, answer: count, choices };
             }
             case 2: {
                 const a = rnd(1, 10);

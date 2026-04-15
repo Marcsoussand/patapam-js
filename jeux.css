@@ -815,5 +815,12 @@ main {
     .patapaf-card {
         aspect-ratio: 1;
     }
+
+    /* Header titre sur 2 lignes pour laisser place au 3e drapeau */
+    .header-title {
+        white-space: normal;
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
 }
 

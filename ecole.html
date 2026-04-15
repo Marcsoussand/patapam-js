@@ -30,22 +30,27 @@
         <h1 data-i18n="ecole">Educatif</h1>
         <button class="ecole-reset-btn" id="ecoleResetBtn">🔄 <span data-i18n="recommencer">Recommencer</span></button>
 
-        <!-- Lignes de connexion (SVG en dessous des ronds) -->
-        <svg class="ecole-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <!-- Lignes de connexion desktop -->
+        <svg class="ecole-lines ecole-lines--desktop" viewBox="0 0 100 100" preserveAspectRatio="none">
             <line x1="28" y1="58" x2="50" y2="75" class="ecole-line"/>
             <line x1="28" y1="58" x2="78" y2="50" class="ecole-line"/>
         </svg>
+        <!-- Lignes de connexion mobile -->
+        <svg class="ecole-lines ecole-lines--mobile" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="22" y1="49" x2="50" y2="83" class="ecole-line"/>
+            <line x1="22" y1="49" x2="72" y2="39" class="ecole-line"/>
+        </svg>
 
         <!-- Ronds numérotés (wrappers position absolue) -->
-        <div class="ecole-node-wrap" style="left:50%;top:75%">
+        <div class="ecole-node-wrap" id="ecoleNodeWrap1" style="left:50%;top:83%">
             <div class="ecole-stars" id="ecoleStars1"></div>
             <button class="ecole-node ecole-node--unlocked" id="ecoleNode1">1</button>
         </div>
-        <div class="ecole-node-wrap" style="left:28%;top:58%">
+        <div class="ecole-node-wrap" id="ecoleNodeWrap2" style="left:28%;top:58%">
             <div class="ecole-stars" id="ecoleStars2"></div>
             <button class="ecole-node ecole-node--locked" id="ecoleNode2">2</button>
         </div>
-        <div class="ecole-node-wrap" style="left:78%;top:50%">
+        <div class="ecole-node-wrap" id="ecoleNodeWrap3" style="left:78%;top:50%">
             <div class="ecole-stars" id="ecoleStars3"></div>
             <button class="ecole-node ecole-node--locked" id="ecoleNode3">3</button>
         </div>

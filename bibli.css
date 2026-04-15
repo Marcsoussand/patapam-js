@@ -610,3 +610,13 @@ main {
     padding: 0;
 }
 .doman-popup__body li { margin-bottom: 0.25rem; }
+
+/* ── Mobile ≤ 768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+    /* Header titre sur 2 lignes pour laisser place au 3e drapeau */
+    .header-title {
+        white-space: normal;
+        font-size: 0.85rem;
+        line-height: 1.2;
+    }
+}
