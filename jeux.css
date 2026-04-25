@@ -33,9 +33,10 @@ main {
 
 .game-zones__bottom {
     height: 18%;
+    display: flex;
     align-items: center;
-    justify-content: flex-start;
     padding-left: 3%;
+    padding-right: 3%;
     padding-bottom: 2%;
 }
 
@@ -71,7 +72,6 @@ main {
     /* padding: 0.3rem 1.5rem;
     border-radius: 12px; */
     margin-bottom: 0%;
-    margin-right: 70%;
 }
 
 .game-zone:hover {
@@ -682,11 +682,16 @@ main {
     .game-zones__bottom {
         height: 35%;
         padding-left: 0;
+        padding-right: 0;
         justify-content: center;
     }
 
     .game-zone--bottom {
-        margin-right: 0;
+        margin-bottom: 20%;
+        justify-content: center;
+    }
+
+    .game-zone--bottom-right {
         margin-bottom: 20%;
         justify-content: center;
     }
@@ -822,5 +827,275 @@ main {
         font-size: 0.85rem;
         line-height: 1.2;
     }
+
+    /* Hangman : mobile */
+    .hangman-betachou {
+        width: min(22vw, 22vh);
+        height: min(22vw, 22vh);
+    }
+
+    .hangman-letter__char {
+        font-size: 1.5rem;
+        min-height: 1.8rem;
+    }
+
+    .hangman-punc {
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+    }
+
+    .hangman-key {
+        height: 2.1rem;
+        font-size: 0.85rem;
+    }
+
+    .hangman-keyboard-row {
+        gap: 0.2rem;
+    }
+
+    .hangman-keyboard {
+        gap: 0.25rem;
+    }
+
+    .hangman-kb-area {
+        gap: 0.25rem;
+        width: 96%;
+    }
 }
 
+/* ════════════════════════════════════════════════════════════
+   ██  PENDU / HANGMAN                                       ██
+   ════════════════════════════════════════════════════════════ */
+
+.hangman-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    height: 100%;
+    padding: 0.75rem 1rem 0.75rem;
+    box-sizing: border-box;
+    color: white;
+    font-family: 'Lilita One', cursive;
+    overflow-y: auto;
+}
+
+/* ── Mosaïque Bétachou ──────────────────────────────────── */
+.hangman-top {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hangman-betachou {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    width: min(18vw, 26vh);
+    height: min(18vw, 26vh);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    direction: ltr; /* empêche l'inversion RTL */
+}
+
+.hangman-betachou__cell {
+    background-image: url('img/betachou.png');
+    background-size: 200% 400%;
+    position: relative;
+}
+
+.hangman-betachou__cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 60, 0.88);
+    transition: opacity 0.6s ease;
+}
+
+.hangman-betachou__cell.is-revealed::before {
+    opacity: 0;
+}
+
+/* Positions de fond pour chaque cellule (2 colonnes × 4 rangées) */
+.hangman-betachou__cell:nth-child(1) { background-position: 0%   0%; }
+.hangman-betachou__cell:nth-child(2) { background-position: 100% 0%; }
+.hangman-betachou__cell:nth-child(3) { background-position: 0%   33.33%; }
+.hangman-betachou__cell:nth-child(4) { background-position: 100% 33.33%; }
+.hangman-betachou__cell:nth-child(5) { background-position: 0%   66.67%; }
+.hangman-betachou__cell:nth-child(6) { background-position: 100% 66.67%; }
+.hangman-betachou__cell:nth-child(7) { background-position: 0%   100%; }
+.hangman-betachou__cell:nth-child(8) { background-position: 100% 100%; }
+
+/* ── Zone du mot ────────────────────────────────────────── */
+.hangman-word-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.hangman-word {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.35rem;
+    justify-content: center;
+    align-items: flex-end;
+    line-height: 1;
+}
+
+.hangman-letter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 1.1rem;
+}
+
+.hangman-letter__char {
+    font-size: 2.2rem;
+    min-height: 2.6rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: white;
+}
+
+.hangman-letter__line {
+    width: 100%;
+    min-width: 1.6rem;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 2px;
+    margin-top: 4px;
+}
+
+.hangman-punc {
+    font-size: 2.2rem;
+    line-height: 2.6rem;
+    color: rgba(255, 255, 255, 0.7);
+    align-self: flex-end;
+    padding-bottom: 3px;
+}
+
+.hangman-space {
+    width: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* ── Points d'erreur ────────────────────────────────────── */
+.hangman-errors {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.hangman-error-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.hangman-error-dot.is-filled {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 5px rgba(255, 80, 80, 0.5);
+}
+
+/* ── Clavier ────────────────────────────────────────────── */
+.hangman-kb-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    width: 90%;
+}
+
+.hangman-kb-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    border-radius: 8px;
+    padding: 0.2rem 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    line-height: 1.4;
+}
+
+.hangman-kb-toggle:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.hangman-keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: stretch;
+    width: 100%;
+}
+
+.hangman-keyboard-row {
+    display: flex;
+    gap: 0.35rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.hangman-key {
+    flex: 1;
+    min-width: 0;
+    height: 2.8rem;
+    font-size: 1.1rem;
+    font-family: 'Lilita One', cursive;
+    background: rgba(255, 255, 255, 0.28);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, opacity 0.12s, transform 0.1s;
+    padding: 0;
+    -webkit-text-stroke: 0.5px rgba(0,0,0,0.25);
+}
+
+.hangman-key:not(:disabled):hover {
+    background: rgba(255, 255, 255, 0.32);
+    transform: scale(1.08);
+}
+
+.hangman-key:disabled {
+    cursor: default;
+}
+
+.hangman-key.is-correct {
+    background: rgba(60, 200, 80, 0.35);
+    border-color: #3cc850;
+    opacity: 0.55;
+}
+
+.hangman-key.is-wrong {
+    background: rgba(220, 50, 50, 0.25);
+    border-color: #dc4040;
+    opacity: 0.4;
+}
+
+/* Input invisible pour le clavier physique / natif mobile */
+.hangman-hidden-input {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: none;
+    outline: none;
+}

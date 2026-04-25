@@ -18,6 +18,11 @@ let tttPlayerMark = "X";
 let tttAIMark = "O";
 let tttDifficulty = "easy";
 let tttLocked = false;
+// ── Pendu state ───────────────────────────────────────────
+let hangmanWord = null;
+let hangmanGuessed = new Set();
+let hangmanWrong = 0;
+let hangmanKbMode = 'alpha'; // 'alpha' | 'kbd'
 // ── Current screen (pour re-render au changement de langue) ───
 let currentScreen = null;
 const PATAPAM_IMAGES = [
@@ -371,6 +376,9 @@ function openGame(game) {
     else if (game === "patapaf") {
         showPatapafSetup();
     }
+    else if (game === "hangman") {
+        showHangman();
+    }
     else {
         showTTTSetupMark();
     }
@@ -390,11 +398,16 @@ function closeGame() {
     patapafScores = [[], []];
     patapafLocked = false;
     patapafAIMemory = new Map();
+    // État Pendu
+    hangmanWord = null;
+    hangmanGuessed = new Set();
+    hangmanWrong = 0;
 }
 btnTicTacToe.addEventListener("click", () => openGame("tictactoe"));
 btnMemory.addEventListener("click", () => openGame("memory"));
 btnClose.addEventListener("click", closeGame);
 document.getElementById("btnPatapaf").addEventListener("click", () => openGame("patapaf"));
+document.getElementById("btnHangman").addEventListener("click", () => openGame("hangman"));
 // ── Re-render l'ecran courant au changement de langue ─────────
 new MutationObserver(() => {
     if (panel.classList.contains("is-open") && currentScreen) {
@@ -1037,4 +1050,282 @@ function showPatapafResult() {
         </div>
     `;
     document.getElementById("patapafRestart")?.addEventListener("click", showPatapafSetup);
+}
+
+// ════════════════════════════════════════════════════════════
+// ██  PENDU / HANGMAN                                       ██
+// ════════════════════════════════════════════════════════════
+
+// ── Bibliothèque de mots ─────────────────────────────────
+const HANGMAN_WORDS = [
+    // Famille
+    { fr: "Papa",     en: "Papa",   he: "אבא" },
+    { fr: "Maman",    en: "Maman",  he: "אמא" },
+    { fr: "Aaron",    en: "Aaron",  he: "אהרון" },
+    { fr: "Naor",     en: "Naor",   he: "נאור" },
+    { fr: "Elon",     en: "Elon",   he: "אלון" },
+    // Corps
+    { fr: "Tête",     en: "Head",   he: "ראש" },
+    { fr: "Main",     en: "Hand",   he: "יד" },
+    { fr: "Pied",     en: "Foot",   he: "רגל" },
+    { fr: "Oreilles", en: "Ears",   he: "אוזניים" },
+    { fr: "Bouche",   en: "Mouth",  he: "פה" },
+    // Animaux
+    { fr: "Lion",         en: "Lion",          he: "אריה" },
+    { fr: "Tigre",        en: "Tiger",         he: "נמר" },
+    { fr: "Vache",        en: "Cow",           he: "פרה" },
+    { fr: "Tortue",       en: "Turtle",        he: "צב" },
+    { fr: "Hippopotame",  en: "Hippopotamus",  he: "היפופוטם" },
+    // Jouets
+    { fr: "Ballon",   en: "Ball",     he: "כדור" },
+    { fr: "Voiture",  en: "Car",      he: "מכונית" },
+    { fr: "Robot",    en: "Robot",    he: "רובוט" },
+    { fr: "Peluche",  en: "Plushie",  he: "בובה רכה" },
+    { fr: "Cubes",    en: "Blocks",   he: "קוביות" },
+    // Nourriture
+    { fr: "Compote",  en: "Compote",  he: "קומפוט" },
+    { fr: "Gâteau",   en: "Cake",     he: "עוגה" },
+    { fr: "Banane",   en: "Banana",   he: "בננה" },
+    { fr: "Pomme",    en: "Apple",    he: "תפוח" },
+    { fr: "Carotte",  en: "Carrot",   he: "גזר" },
+    // Héros de Patapam
+    { fr: "Patapam",   en: "Patapam",   he: "פטפם" },
+    { fr: "Tartuffe",  en: "Tartuffe",  he: "טרטוף" },
+    { fr: "Betachou",  en: "Betachou",  he: "בטאשו" },
+    { fr: "Dauphinou", en: "Dauphinou", he: "דופינו" },
+    { fr: "Mollasson", en: "Mollasson", he: "מולאסון" },
+    { fr: "Patapon le cheval marron",   en: "Patapon the brown horse",   he: "פטפון הסוס החום" },
+    { fr: "Gascar le cheval noir",      en: "Gascar the black horse",    he: "גסקר הסוס השחור" },
+    { fr: "D\u2019Artagnan le cheval blanc", en: "D\u2019Artagnan the white horse", he: "דארטניאן הסוס הלבן" },
+    { fr: "Ouistiti le cheval gris",    en: "Ouistiti the grey horse",   he: "אוויסטיטי הסוס האפור" },
+    { fr: "Ren\u00e9 le poney",         en: "Ren\u00e9 the pony",        he: "רנה הפוני" },
+];
+
+// ── Normalisation des caractères ─────────────────────────
+const HANGMAN_ACCENT_MAP = {
+    '\u00e9': 'e', '\u00e8': 'e', '\u00ea': 'e', '\u00eb': 'e',
+    '\u00e0': 'a', '\u00e2': 'a', '\u00e4': 'a',
+    '\u00f9': 'u', '\u00fb': 'u', '\u00fc': 'u',
+    '\u00ee': 'i', '\u00ef': 'i',
+    '\u00f4': 'o', '\u00f6': 'o', '\u0153': 'o',
+    '\u00e7': 'c', '\u00e6': 'ae',
+};
+const HANGMAN_HE_SOFIT = { '\u05da': '\u05db', '\u05dd': '\u05de', '\u05df': '\u05e0', '\u05e3': '\u05e4', '\u05e5': '\u05e6' };
+
+function hangmanNormalize(ch, lang) {
+    if (lang === 'he') {
+        // Supprimer nikud et signes diacritiques (U+0591–U+05C7) + geresh/gershayim
+        const base = ch.replace(/[\u0591-\u05c7\u05f3\u05f4]/g, '');
+        return HANGMAN_HE_SOFIT[base] ?? base;
+    }
+    return HANGMAN_ACCENT_MAP[ch] ?? ch;
+}
+
+// ── Claviers virtuels ─────────────────────────────────────
+// Mode alphabétique (par défaut)
+const HANGMAN_ALPHA = {
+    fr: [
+        ['A','B','C','D','E','F','G','H','I'],
+        ['J','K','L','M','N','O','P','Q','R'],
+        ['S','T','U','V','W','X','Y','Z'],
+    ],
+    en: [
+        ['A','B','C','D','E','F','G','H','I'],
+        ['J','K','L','M','N','O','P','Q','R'],
+        ['S','T','U','V','W','X','Y','Z'],
+    ],
+    he: [
+        ['\u05d0','\u05d1','\u05d2','\u05d3','\u05d4','\u05d5','\u05d6','\u05d7'],
+        ['\u05d8','\u05d9','\u05db','\u05dc','\u05de','\u05e0','\u05e1','\u05e2'],
+        ['\u05e4','\u05e6','\u05e7','\u05e8','\u05e9','\u05ea'],
+    ],
+};
+// Mode disposition clavier (AZERTY / QWERTY / clavier hébreu)
+const HANGMAN_KEYBOARDS = {
+    fr: [
+        ['A','Z','E','R','T','Y','U','I','O','P'],
+        ['Q','S','D','F','G','H','J','K','L','M'],
+        ['W','X','C','V','B','N'],
+    ],
+    en: [
+        ['Q','W','E','R','T','Y','U','I','O','P'],
+        ['A','S','D','F','G','H','J','K','L'],
+        ['Z','X','C','V','B','N','M'],
+    ],
+    he: [
+        ['/','ק','ר','א','ט','ו','ן','ם','פ'],
+        ['ש','ד','ג','כ','ע','י','ח','ל','ך'],
+        ['ז','ס','ב','ה','נ','מ','צ','ת','ץ'],
+    ],
+};
+
+// ── Démarrage / re-démarrage ──────────────────────────────
+function showHangman() {
+    currentScreen = showHangman;
+    const lang = document.documentElement.lang || 'fr';
+    const pool = HANGMAN_WORDS.filter(w => {
+        const word = w[lang] ?? w.fr;
+        return [...word].filter(ch => /\p{L}/u.test(ch)).length >= 3;
+    });
+    hangmanWord = pool[Math.floor(Math.random() * pool.length)];
+    hangmanGuessed = new Set();
+    hangmanWrong = 0;
+    hangmanKbMode = 'alpha';
+    renderHangmanGame();
+}
+
+// ── Vérification victoire ─────────────────────────────────
+function isHangmanWon() {
+    if (!hangmanWord) return false;
+    const lang = document.documentElement.lang || 'fr';
+    const word = hangmanWord[lang] ?? hangmanWord.fr;
+    for (const ch of word) {
+        if (!/\p{L}/u.test(ch)) continue;
+        const n = hangmanNormalize(lang === 'he' ? ch : ch.toLowerCase(), lang);
+        if (!hangmanGuessed.has(n)) return false;
+    }
+    return true;
+}
+
+// ── Traitement d'une touche ───────────────────────────────
+function processHangmanKey(rawKey) {
+    if (!hangmanWord || hangmanWrong >= 8 || isHangmanWon()) return;
+    const lang = document.documentElement.lang || 'fr';
+    const normalized = hangmanNormalize(lang === 'he' ? rawKey : rawKey.toLowerCase(), lang);
+    if (!normalized || !/\p{L}/u.test(normalized)) return;
+    if (hangmanGuessed.has(normalized)) return;
+    hangmanGuessed.add(normalized);
+    const word = hangmanWord[lang] ?? hangmanWord.fr;
+    const hasMatch = [...word].some(ch =>
+        /\p{L}/u.test(ch) &&
+        hangmanNormalize(lang === 'he' ? ch : ch.toLowerCase(), lang) === normalized
+    );
+    if (!hasMatch) hangmanWrong++;
+    renderHangmanGame();
+    if (hangmanWrong >= 8) setTimeout(() => showHangmanResult(false), 700);
+    else if (isHangmanWon()) setTimeout(() => showHangmanResult(true), 500);
+}
+
+// ── Rendu principal ───────────────────────────────────────
+function renderHangmanGame() {
+    const lang = document.documentElement.lang || 'fr';
+    const word = hangmanWord[lang] ?? hangmanWord.fr;
+    const isHe = lang === 'he';
+    const won = isHangmanWon();
+    const lost = hangmanWrong >= 8;
+
+    // Mosaïque Bétachou (2 colonnes × 4 rangées)
+    let betachouHtml = '';
+    for (let i = 0; i < 8; i++) {
+        betachouHtml += `<div class="hangman-betachou__cell${i < hangmanWrong ? ' is-revealed' : ''}"></div>`;
+    }
+
+    // Affichage du mot lettre par lettre
+    let wordHtml = '';
+    for (const ch of word) {
+        if (ch === ' ') {
+            wordHtml += `<span class="hangman-space"></span>`;
+        } else if (ch === "'" || ch === '\u2019' || ch === '-') {
+            wordHtml += `<span class="hangman-punc">${ch === '\u2019' ? "'" : ch}</span>`;
+        } else if (/\p{L}/u.test(ch)) {
+            const n = hangmanNormalize(isHe ? ch : ch.toLowerCase(), lang);
+            const revealed = hangmanGuessed.has(n) || lost;
+            wordHtml += `<span class="hangman-letter">` +
+                `<span class="hangman-letter__char">${revealed ? ch : ''}</span>` +
+                `<span class="hangman-letter__line"></span>` +
+                `</span>`;
+        }
+    }
+
+    // Points d'erreur (8 max)
+    let dotsHtml = '';
+    for (let i = 0; i < 8; i++) {
+        dotsHtml += `<div class="hangman-error-dot${i < hangmanWrong ? ' is-filled' : ''}"></div>`;
+    }
+
+    // Clavier virtuel
+    const kbLayout = hangmanKbMode === 'alpha'
+        ? (HANGMAN_ALPHA[lang] || HANGMAN_ALPHA.fr)
+        : (HANGMAN_KEYBOARDS[lang] || HANGMAN_KEYBOARDS.fr);
+    let kbHtml = '';
+    for (const row of kbLayout) {
+        kbHtml += `<div class="hangman-keyboard-row">`;
+        for (const key of row) {
+            const n = hangmanNormalize(isHe ? key : key.toLowerCase(), lang);
+            const used = hangmanGuessed.has(n);
+            const correct = used && [...word].some(ch =>
+                /\p{L}/u.test(ch) && hangmanNormalize(isHe ? ch : ch.toLowerCase(), lang) === n
+            );
+            const cls = used ? (correct ? ' is-correct' : ' is-wrong') : '';
+            const disabled = used || lost || won;
+            kbHtml += `<button class="hangman-key${cls}" data-key="${key}"${disabled ? ' disabled' : ''}>${key}</button>`;
+        }
+        kbHtml += `</div>`;
+    }
+
+    const toggleLabel = hangmanKbMode === 'alpha' ? '⌨️' : '🔡';
+    const toggleTitle = hangmanKbMode === 'alpha'
+        ? (isHe ? 'פריסת מקלדת' : lang === 'en' ? 'Keyboard layout' : 'Disposition clavier')
+        : (isHe ? 'אבג סדר' : lang === 'en' ? 'Alphabetical' : 'Ordre alphabétique');
+
+    panelContent.innerHTML = `
+        <div class="hangman-game">
+            <div class="hangman-top">
+                <div class="hangman-betachou">${betachouHtml}</div>
+                <div class="hangman-word-area">
+                    <div class="hangman-word" dir="${isHe ? 'rtl' : 'ltr'}">${wordHtml}</div>
+                </div>
+            </div>
+            <div class="hangman-errors">${dotsHtml}</div>
+            <div class="hangman-kb-area">
+                <button class="hangman-kb-toggle" id="hangmanKbToggle" title="${toggleTitle}">${toggleLabel}</button>
+                <div class="hangman-keyboard">${kbHtml}</div>
+            </div>
+        </div>
+        <input id="hangmanInput" class="hangman-hidden-input"
+            type="text" inputmode="text"
+            autocomplete="off" autocorrect="off" autocapitalize="off"
+            spellcheck="false" maxlength="2">
+    `;
+
+    // Clavier virtuel : clics sur les touches
+    panelContent.querySelectorAll('.hangman-key').forEach(btn => {
+        btn.addEventListener('click', () => processHangmanKey(btn.dataset.key));
+    });
+
+    // Bouton toggle alpha ↔ disposition clavier
+    document.getElementById('hangmanKbToggle')?.addEventListener('click', () => {
+        hangmanKbMode = hangmanKbMode === 'alpha' ? 'kbd' : 'alpha';
+        renderHangmanGame();
+    });
+
+    // Input caché : capture le clavier physique (desktop) et natif (mobile)
+    const hiddenInput = document.getElementById('hangmanInput');
+    if (hiddenInput) {
+        hiddenInput.addEventListener('input', e => {
+            const val = e.target.value;
+            e.target.value = '';
+            if (val) processHangmanKey(val[0]);
+        });
+        // Auto-focus pour desktop
+        if (!lost && !won) setTimeout(() => hiddenInput.focus(), 80);
+    }
+}
+
+// ── Écran de résultat ─────────────────────────────────────
+function showHangmanResult(won) {
+    currentScreen = null;
+    const lang = document.documentElement.lang || 'fr';
+    const title = won
+        ? (lang === 'he' ? '🎉 ניצחת!' : lang === 'en' ? '🎉 You won!' : '🎉 Bravo !')
+        : (lang === 'he' ? '😢 בטאשו ניצח!' : lang === 'en' ? '😢 Bétachou wins!' : '😢 Bétachou a gagné !');
+    const wordDisplay = hangmanWord ? (hangmanWord[lang] ?? hangmanWord.fr) : '';
+    panelContent.innerHTML = `
+        <div class="memory-setup">
+            <h2 class="memory-setup__title">${title}</h2>
+            ${!won ? `<p class="memory-setup__subtitle" style="opacity:0.85">${wordDisplay}</p>` : ''}
+            <button class="memory-level-btn" id="hangmanRestart">↩</button>
+        </div>
+    `;
+    document.getElementById('hangmanRestart')?.addEventListener('click', showHangman);
 }
